@@ -75,3 +75,15 @@ typedef struct		header_s
   char				comment[COMMENT_LENGTH + 1];
 }					header_t;
 
+typedef struct 	s_op
+{
+	char		      *name;
+	int			      arg;
+	t_arg_type	  type[3];
+	int			      no1;
+	int			      no2;
+	char		      *def;
+	int			      no3;
+	int			      no4;
+}				        t_op;
+

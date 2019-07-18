@@ -1,33 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_iswhitespace.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/20 22:37:33 by abrunet           #+#    #+#             */
-/*   Updated: 2017/11/23 16:03:20 by abrunet          ###   ########.fr       */
+/*   Created: 2017/11/21 22:48:56 by abrunet           #+#    #+#             */
+/*   Updated: 2017/11/22 20:45:21 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int			ft_strncmp(const char *str1, const char *str2, size_t n)
+int		ft_iswhitespace(char c)
 {
-	unsigned char	*s1;
-	unsigned char	*s2;
-	size_t			i;
-	size_t			res;
-
-	i = 0;
-	s1 = (unsigned char *)str1;
-	s2 = (unsigned char *)str2;
-	res = 0;
-	if (n != 0)
-	{
-		while (s1[i] == s2[i] && s2[i] != '\0' && s1[i] != '\0' && (i + 1) < n)
-			i++;
-		res = (s1[i] - s2[i]);
-	}
-	return (res);
+	if ((c >= 9 && c <= 11) || c == 32 || c == 13)
+		return (1);
+	return (0);
 }

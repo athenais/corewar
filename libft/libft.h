@@ -57,4 +57,7 @@ char				*ft_itoa(int n);
 void				ft_bzero(void *s, size_t n);
 char				*ft_strncpy(char *dst, char const *src, size_t len);
 char				*ft_strcpy(char *dst, char const *src);
+int					ft_iswhitespace(char c);
+void				get_next_word(char const *str, char **start, char **end);
+
 #endif
