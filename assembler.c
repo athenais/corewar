@@ -41,7 +41,7 @@ uint8_t					get_funptr_index(char *start, t_file *file, int size)
 	{
 		if (start[size - 1] == ':')
 			return (3);
-		else if (is_instruction(start, file->op_tab) == EXIT_SUCCESS)
+		else if (is_instruction(start, file->op_tab) != EXIT_ERROR)
 			return (4);
 	}
 	return (0);
