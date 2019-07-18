@@ -14,9 +14,9 @@ uint8_t					is_instruction(char *str, t_op *op_tab)
 	while (op_tab[++index].name)
 	{
 		if (!(ft_strcmp(str, op_tab[index].name)))
-			return (EXIT_SUCCESS);
+			return (index);
 	}
-	return (EXIT_FAILURE);
+	return (EXIT_ERROR);
 }
 
 uint8_t					get_funptr_index(char *start, t_file *file, int size)

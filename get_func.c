@@ -1,8 +1,4 @@
-#include <stdio.h>
 #include <asm.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include "libft/libft.h"
 #include <asm_errors.h>
 
