@@ -1,12 +1,14 @@
 #include <asm.h>
 #include "libft/libft.h"
 #include <asm_errors.h>
+#include <stdio.h>
 
-uint8_t     get_champ_name(t_file *file, __unused char *wd, char *ptr, char *end)
+int     get_champ_name(t_file *file, __unused char *wd, char *ptr, char *end)
 {
     char    *p;
     int     size;
 
+    printf("%s = str\n", end);
     if (end != ptr)
     {
         end = end + 1;
@@ -26,7 +28,7 @@ uint8_t     get_champ_name(t_file *file, __unused char *wd, char *ptr, char *end
     return (EXIT_ERROR);
 }
 
-uint8_t     get_comment(t_file *file, __unused char *wd, char *ptr, char *end)
+int     get_comment(t_file *file, __unused char *wd, char *ptr, char *end)
 {
     char    *p;
     int     size;
@@ -48,4 +50,37 @@ uint8_t     get_comment(t_file *file, __unused char *wd, char *ptr, char *end)
         }
     }
     return (EXIT_ERROR);
+}
+
+t_label     *make_label(char *word)
+{
+    t_label *new;
+
+  //  printf("%s = wd", word);
+    new = malloc(sizeof(t_label));
+    if (!(new->name = malloc(ft_strlen(word) + 1)))
+        return (NULL);
+    ft_strcpy(new->name, word);
+    new->next = NULL;
+    return (new);
+} 
+//check for word;
+int     get_label(t_file *file, char *wd, __unused char *ptr, __unused char *end)
+{
+    t_label    *tmp;
+
+    if (file->label == NULL)
+    {
+         if (!(file->label = make_label(wd)))
+            return (EXIT_ERROR);
+    }
+    else
+    {
+        tmp = file->label;
+        while (tmp->next != NULL)
+            tmp = tmp->next;
+        if (!(tmp = make_label(wd)))
+            return (EXIT_ERROR);
+    }
+    return (EXIT_SUCCESS);
 }

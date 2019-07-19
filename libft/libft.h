@@ -59,5 +59,6 @@ char				*ft_strncpy(char *dst, char const *src, size_t len);
 char				*ft_strcpy(char *dst, char const *src);
 int					ft_iswhitespace(char c);
 void				get_next_word(char const *str, char **start, char **end);
+char			    **ft_strsplit(char const *s, char c);
 
 #endif

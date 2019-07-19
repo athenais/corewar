@@ -6,18 +6,8 @@
 #include "libft/libft.h"
 #include <asm_errors.h>
 
-uint8_t					is_instruction(char *str, t_op *op_tab)
-{
-	int		index;
-
-	index = -1;
-	while (op_tab[++index].name)
-	{
-		if (!(ft_strcmp(str, op_tab[index].name)))
-			return (index);
-	}
-	return (EXIT_ERROR);
-}
+//add condition for empty line;
+//rm !! 
 
 uint8_t					get_funptr_index(char *start, t_file *file, int size)
 {
@@ -37,7 +27,7 @@ uint8_t					get_funptr_index(char *start, t_file *file, int size)
 			return (2);
 		}
 	}
-	else if (size > 0 && name && cmnt)
+	else if (size > 0 && !name && !cmnt)
 	{
 		if (start[size - 1] == ':')
 			return (3);
@@ -47,23 +37,25 @@ uint8_t					get_funptr_index(char *start, t_file *file, int size)
 	return (0);
 }
 
+//seg_fault on get_next_word
 int						read_line(t_file *file, char **buff, char *ptr)
 {
 	static	uint8_t		index;
 	char				*start;
 	char				*end;
-	uint8_t				(*funptr[4])(t_file *, char *, char *, char *);
+	int					(*funptr[5])(t_file *, char *, char *, char *);
 
 	funptr[1] = &get_champ_name;
 	funptr[2] = &get_comment;
-//	funptr[3] = &get_label;
-//	funptr[4] = &get_instruction;
+	funptr[3] = &get_label;
+	funptr[4] = &get_instruction;
 	*ptr = '\0';
 	get_next_word((char const *)*buff, &start, &end);
+	printf("%s = word\n", start);
 	if ((index = get_funptr_index(start, file, (int)(end - start))))
 	{
 		(funptr[index])(file, start, ptr, end);
-		printf("|%s| = champ\n", file->cmnt);
+		printf("|%s| = champ\n", file->name);
 		*buff = (ptr)
 			? ft_strcpy(*buff, (char const *)ptr + 1) : '\0';
 	}
@@ -94,6 +86,7 @@ int						read_file(t_file *file, char **buffer)
 		ret = read(file->fd, *buffer + (BUF_SIZE * (lp - 1)), BUF_SIZE);
 		bit_rd += ret;
 	}
+	printf("|%s|\n", *buffer);
 	read_line(file, buffer, ptr);  
 	return (0);	
 }
@@ -108,6 +101,8 @@ int						translate_to_cor(char *file_name)
 		//error file msg ?
 		return (EXIT_ERROR);
 	}
+	file.label = NULL;
+	printf("%p = labe\n", file.label);
 	define_op_tab(&file.op_tab);
 	buffer = (char *)malloc(sizeof(char) * BUF_SIZE + 1);
 	ft_bzero(buffer, BUF_SIZE + 1);
