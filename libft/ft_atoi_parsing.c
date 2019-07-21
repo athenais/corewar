@@ -12,15 +12,13 @@
 
 #include <libft.h>
 
-int64_t						ft_atoi_parsing(char const **string)
+int64_t						ft_atoi_parsing(char **string)
 {
 	int8_t					ng;
 	int64_t					nb;
 
 	nb = 0;
 	ng = 1;
-	while (**string == ' ')
-		(*string)++;
 	if (**string == '-' || **string == '+')
 		ng = 44 - *(*string)++;
 	if (!ft_isdigit(**string))

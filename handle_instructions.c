@@ -19,13 +19,13 @@ int			is_instruction(char *str, t_op *op_tab)
 int         valid_instruction_format(int arg, char *str)
 {
     int     count;
-
+    //beware '-'
     count = 1;
     while (*str && *str != '#')
     {
         if (ft_iswhitespace(*str))
             str++; 
-        else if ((*str >= 'a' && *str <= 'z') || *str == '_')
+        else if ((*str >= 'a' && *str <= 'z') || *str == '_' || *str == '-')
             str++;
         else if (*str >= '0' && *str <= '9')
             str++;
@@ -60,38 +60,30 @@ void      ft_trim(char **split)
     *str = '\0';        
 }
 
-int         valid_undirect_values(char *str)
+int         valid_undirect_values(char **str)
 {
     int     nb;
     int     i;
 
     nb = 0;
     i = 0;
-    if (*str == 'r')
+    if (**str == 'r')
     {
-        while (str[++i])
-            if (!(ft_isdigit(str[i])))
-                return (EXIT_ERROR);
-//       if ((nb = ft_get_nb(str + 1, i)) < 0 && nb > REG_NUMBER)
-//            return (EXIT_ERROR);
+        *str = *str + 1;
+        if ((nb = ft_atoi_parsing(str)) < 0 || nb > REG_NUMBER)
+            return (EXIT_ERROR);
     }
-    else if (str[i] == ':')
-    {
-        return (EXIT_SUCCESS);
+  //  else if (str[i] == ':')
+  //  {
+   //     return (EXIT_SUCCESS);
             //if (!look for existing label)
             // go through file;
-    }
+  //  }
     else
     {
-        while (str[i++])
-        {   
-            if (i == 0 && str[i] == '-')
-                i++;
-            if (!(ft_isdigit(str[i])))
-                return (EXIT_ERROR);
-        }
- //       nb = ft_get_nb(str, i);
+        nb = ft_atoi_parsing(str);
     }
+    printf("nb = %d \n", nb);
     return (EXIT_SUCCESS);        
 }
 
@@ -112,7 +104,7 @@ int         get_instruction(t_file *file, char *wd, char *ptr, char *end)
             {
                 ft_trim(&(*split));
                 if (**split != DIRECT_CHAR)
-                    valid_undirect_values(*split);
+                    valid_undirect_values(&(*split));
                         //do smthg
                 
                 //if !%
