@@ -8,7 +8,6 @@ int     get_champ_name(t_file *file, __unused char *wd, char *ptr, char *end)
     char    *p;
     int     size;
 
-    printf("%s = str\n", end);
     if (end != ptr)
     {
         end = end + 1;
@@ -55,20 +54,22 @@ int     get_comment(t_file *file, __unused char *wd, char *ptr, char *end)
 t_label     *make_label(char *word)
 {
     t_label *new;
+    int     size;
 
-  //  printf("%s = wd", word);
+    size = ft_strlen(word);
     new = malloc(sizeof(t_label));
-    if (!(new->name = malloc(ft_strlen(word) + 1)))
+    if (!(new->name = malloc(size)))
         return (NULL);
-    ft_strcpy(new->name, word);
+    ft_strncpy(new->name, word, size - 1);
+    printf("|%s| = new", new->name);
     new->next = NULL;
     return (new);
 } 
-//check for word;
+
 int     get_label(t_file *file, char *wd, __unused char *ptr, __unused char *end)
 {
     t_label    *tmp;
-
+//check valid chars
     if (file->label == NULL)
     {
          if (!(file->label = make_label(wd)))

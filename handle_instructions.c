@@ -60,6 +60,41 @@ void      ft_trim(char **split)
     *str = '\0';        
 }
 
+int         valid_undirect_values(char *str)
+{
+    int     nb;
+    int     i;
+
+    nb = 0;
+    i = 0;
+    if (*str == 'r')
+    {
+        while (str[++i])
+            if (!(ft_isdigit(str[i])))
+                return (EXIT_ERROR);
+//       if ((nb = ft_get_nb(str + 1, i)) < 0 && nb > REG_NUMBER)
+//            return (EXIT_ERROR);
+    }
+    else if (str[i] == ':')
+    {
+        return (EXIT_SUCCESS);
+            //if (!look for existing label)
+            // go through file;
+    }
+    else
+    {
+        while (str[i++])
+        {   
+            if (i == 0 && str[i] == '-')
+                i++;
+            if (!(ft_isdigit(str[i])))
+                return (EXIT_ERROR);
+        }
+ //       nb = ft_get_nb(str, i);
+    }
+    return (EXIT_SUCCESS);        
+}
+
 int         get_instruction(t_file *file, char *wd, char *ptr, char *end)
 {
     int     index;
@@ -68,7 +103,6 @@ int         get_instruction(t_file *file, char *wd, char *ptr, char *end)
 
     index = is_instruction(wd, file->op_tab);
     arg = file->op_tab[index].arg;
-
     if (end != ptr)
     {
         if (valid_instruction_format(arg, end + 1) == EXIT_SUCCESS)
@@ -77,7 +111,10 @@ int         get_instruction(t_file *file, char *wd, char *ptr, char *end)
             while (arg--)
             {
                 ft_trim(&(*split));
-                //trim
+                if (**split != DIRECT_CHAR)
+                    valid_undirect_values(*split);
+                        //do smthg
+                
                 //if !%
                 //check if r < max
                 //else if valeur = num
