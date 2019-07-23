@@ -99,6 +99,7 @@ int         get_instruction(t_file *file, char **wd, int ret, char **end)
     if ((index = is_instruction(*wd, file->op_tab)) < 0)
         return (EXIT_ERROR);
     arg = file->op_tab[index].arg;
+    //check if valid vv
     if (*end != (*wd + ret))
     {
         if (valid_instruction_format(arg, *end + 1) == EXIT_SUCCESS)

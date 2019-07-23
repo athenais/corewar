@@ -15,7 +15,7 @@
 #include <stdio.h>
 #define UNLIKELY(x)			__builtin_expect(!!(x), 0)
 
-int8_t						ft_readline(int fd, char **string, char **line)
+int							ft_readline(int fd, char **string, char **line)
 {
 	char					buffer[BUFF_SIZE];
 	char					*ptr;
