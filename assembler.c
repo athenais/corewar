@@ -6,9 +6,6 @@
 #include "libft/libft.h"
 #include <asm_errors.h>
 
-//add condition for empty line;
-//rm !! 
-
 uint8_t					get_funptr_index(char *start, t_file *file, int size)
 {
 	static	int name;
@@ -27,7 +24,7 @@ uint8_t					get_funptr_index(char *start, t_file *file, int size)
 			return (2);
 		}
 	}
-	else if (size > 0 && !name && !cmnt)
+	else if (size > 0 && name && cmnt)
 	{
 		if (start[size - 1] == ':')
 			return (3);
@@ -37,75 +34,58 @@ uint8_t					get_funptr_index(char *start, t_file *file, int size)
 	return (0);
 }
 
-//seg_fault on get_next_word
-int						read_line(t_file *file, char **buff, char *ptr)
+int						parse_line(t_file *file, char **buff, int ret,
+	int (**funptr)(t_file *, char **, int , char **))
 {
 	static	uint8_t		index;
 	char				*start;
 	char				*end;
-	int					(*funptr[5])(t_file *, char *, char *, char *);
+
+	if (!(get_next_word((char const *)*buff, &start, &end)))
+		return (EXIT_SUCCESS);
+	if ((index = get_funptr_index(start, file, (int)(end - start))))
+	{	
+		if ((funptr[index])(file, &start, ret, &end) != EXIT_SUCCESS)
+			return (EXIT_ERROR);
+		printf("buff = |%s|\n", end);
+		return (parse_line(file, &end, ret, funptr));
+	}
+	if (*start == '#')
+		return (EXIT_SUCCESS);
+	return (EXIT_ERROR);
+}
+
+int						read_file(t_file *file)
+{
+	char				*buffer;
+	static char			*string;
+	int					ret;
+	int					(*funptr[5])(t_file *, char **, int , char **);
 
 	funptr[1] = &get_champ_name;
 	funptr[2] = &get_comment;
 	funptr[3] = &get_label;
 	funptr[4] = &get_instruction;
-	*ptr = '\0';
-	get_next_word((char const *)*buff, &start, &end);
-	printf("%s = word\n", start);
-	if ((index = get_funptr_index(start, file, (int)(end - start))))
+	file->bytes = 0;
+	if (!(string = ft_strnew(1)))
+		return (EXIT_ERROR);
+	while ((ret = ft_readline(file->fd, &string, &buffer)) > 0)
 	{
-		(funptr[index])(file, start, ptr, end);
-		printf("|%s| = champ\n", file->name);
-		*buff = (ptr)
-			? ft_strcpy(*buff, (char const *)ptr + 1) : '\0';
+		file->bytes += ret;
+		printf("BUFFER = |%s|\n", buffer);
+		if (parse_line(file, &buffer, ret, funptr) == EXIT_ERROR)
+			return (EXIT_ERROR);
 	}
-	return (EXIT_ERROR);
+	return (EXIT_SUCCESS);	
 }
 
-int						read_file(t_file *file, char **buffer)
+int						s_to_cor(char *file_name)
 {
-	int 				ret;
-	int 				lp;
-	int 				bit_rd;
-	char 				*ptr;
-//add read(fd) error
-//check if buffer empty, add diff
-//add gnl_cap
-	ret = read(file->fd, *buffer, BUF_SIZE);
-	bit_rd = ret;
-	lp = 1;
-	//protection on lp??
-	while (!(ptr = ft_strchr(*buffer, '\n')) && ret)
-	{
-		lp++;
-		if (!(*buffer = realloc(*buffer, BUF_SIZE * lp + 1)))
-		{
-				return (EXIT_ERROR);
-		}
-		ft_bzero(*buffer + (BUF_SIZE * (lp - 1)), BUF_SIZE + 1);
-		ret = read(file->fd, *buffer + (BUF_SIZE * (lp - 1)), BUF_SIZE);
-		bit_rd += ret;
-	}
-	printf("|%s|\n", *buffer);
-	read_line(file, buffer, ptr);  
-	return (0);	
-}
-
-int						translate_to_cor(char *file_name)
-{
-	char 				*buffer;
 	t_file 				file;
 
 	if ((file.fd = open(file_name, O_RDONLY)) == EXIT_ERROR)
-	{
-		//error file msg ?
-		return (EXIT_ERROR);
-	}
+		return (ft_puterror(FILERR));
 	file.label = NULL;
-	printf("%p = labe\n", file.label);
 	define_op_tab(&file.op_tab);
-	buffer = (char *)malloc(sizeof(char) * BUF_SIZE + 1);
-	ft_bzero(buffer, BUF_SIZE + 1);
-	read_file(&file, &buffer);
-	return (EXIT_SUCCESS);
+	return (read_file(&file));
 }

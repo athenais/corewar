@@ -46,7 +46,7 @@ int         valid_instruction_format(int arg, char *str)
     return (EXIT_SUCCESS);
 }
 
-void      ft_trim(char **split)
+char      *ft_trim(char **split)
 {
     //watch out for free maybe return pointer to split;
     char    *str;
@@ -57,63 +57,62 @@ void      ft_trim(char **split)
     *split = str;
     while (*str && *str != '#' && !(ft_iswhitespace(*str)))
         str++;
-    *str = '\0';        
+    *str = '\0';
+    return (str);        
 }
 
 int         valid_undirect_values(char **str)
 {
     int     nb;
-    int     i;
 
     nb = 0;
-    i = 0;
     if (**str == 'r')
     {
         *str = *str + 1;
         if ((nb = ft_atoi_parsing(str)) < 0 || nb > REG_NUMBER)
             return (EXIT_ERROR);
     }
-  //  else if (str[i] == ':')
-  //  {
-   //     return (EXIT_SUCCESS);
-            //if (!look for existing label)
+    else if (**str == ':')
+    {
+        
+            //look for existing label
+            //-->get_opcode + write
+            //else
+            //
             // go through file;
-  //  }
+         return (EXIT_SUCCESS);
+    }
     else
     {
         nb = ft_atoi_parsing(str);
     }
-    printf("nb = %d \n", nb);
+ //   printf("nb = %d \n", nb);
     return (EXIT_SUCCESS);        
 }
 
-int         get_instruction(t_file *file, char *wd, char *ptr, char *end)
+int         get_instruction(t_file *file, char **wd, int ret, char **end)
 {
     int     index;
     char    **split;
     int     arg;
 
-    index = is_instruction(wd, file->op_tab);
+    if ((index = is_instruction(*wd, file->op_tab)) < 0)
+        return (EXIT_ERROR);
     arg = file->op_tab[index].arg;
-    if (end != ptr)
+    if (*end != (*wd + ret))
     {
-        if (valid_instruction_format(arg, end + 1) == EXIT_SUCCESS)
+        if (valid_instruction_format(arg, *end + 1) == EXIT_SUCCESS)
         {
-            split = ft_strsplit(end + 1, ',');
+            split = ft_strsplit(*end + 1, ',');
             while (arg--)
             {
-                ft_trim(&(*split));
+                *end = ft_trim(&(*split));
                 if (**split != DIRECT_CHAR)
                     valid_undirect_values(&(*split));
                         //do smthg
-                
-                //if !%
-                //check if r < max
-                //else if valeur = num
-                //else if label
                 split++;
             }
         }
-    }
-    return (EXIT_ERROR);
+    } 
+    return (EXIT_SUCCESS);
 }

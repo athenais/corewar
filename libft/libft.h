@@ -43,7 +43,7 @@ char				*ft_strcat(char *s1, char const *s2);
 char				*ft_strdup(char const *s);
 char				*ft_strsub(char const *s, size_t i, size_t n);
 char				*ft_strnjoinfree(char const *s, char const *p, size_t n);
-int8_t				ft_readline(char **string, char **line);
+int8_t				ft_readline(int fd, char **string, char **line);
 int64_t				ft_atoi_parsing(char **string);
 int64_t				ft_min(int64_t a, int64_t b);
 uint8_t				ft_variadic_freeing(unsigned int nb, ...);
@@ -58,7 +58,7 @@ void				ft_bzero(void *s, size_t n);
 char				*ft_strncpy(char *dst, char const *src, size_t len);
 char				*ft_strcpy(char *dst, char const *src);
 int					ft_iswhitespace(char c);
-void				get_next_word(char const *str, char **start, char **end);
+int 				get_next_word(char const *str, char **start, char **end);
 char			    **ft_strsplit(char const *s, char c);
 
 #endif

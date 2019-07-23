@@ -12,15 +12,16 @@
 
 #include <libft.h>
 #include <unistd.h>
+#include <stdio.h>
 #define UNLIKELY(x)			__builtin_expect(!!(x), 0)
 
-int8_t						ft_readline(char **string, char **line)
+int8_t						ft_readline(int fd, char **string, char **line)
 {
 	char					buffer[BUFF_SIZE];
 	char					*ptr;
 	register ssize_t		bytes;
 
-	while (!ft_strchr(*string, 10) && (bytes = read(0, buffer, BUFF_SIZE)) > 0)
+	while (!ft_strchr(*string, 10) && (bytes = read(fd, buffer, BUFF_SIZE)) > 0)
 		if (!(*string = ft_strnjoinfree(*string, buffer, bytes)))
 			return (-1);
 	bytes = 0;
@@ -34,5 +35,5 @@ int8_t						ft_readline(char **string, char **line)
 	if (UNLIKELY((*string = ft_strdup(ptr + bytes)) == NULL))
 		return (-1);
 	free((void *)ptr);
-	return (bytes > 0 ? 1 : 0);
+	return (bytes > 0 ? bytes : 0);
 }
