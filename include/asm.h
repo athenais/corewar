@@ -31,10 +31,10 @@ typedef	struct		s_file
 int			check_extension(char *str);
 int			s_to_cor(char *file_name);
 void		define_op_tab(t_op **tab);
-int	     	get_champ_name(t_file *file, char **wd, int ret, char **end);
-int		    get_comment(t_file *file, char **wd, int ret, char **end);
-int		    get_label(t_file *file, char **wd, __unused int ret, __unused char **end);
-int			get_instruction(t_file *file, char **wd, int ret, char **end);
+int	     	get_champ_name(t_file *file, char **wd, char *ptr, char **end);
+int		    get_comment(t_file *file, char **wd, char *ptr, char **end);
+int		    get_label(t_file *file, char **wd, char *ptr, char **end);
+int			get_instruction(t_file *file, char **wd, char *ptr, char **end);
 int			is_instruction(char *str, t_op *op_tab);
 
 #endif

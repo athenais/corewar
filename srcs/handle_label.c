@@ -11,7 +11,6 @@ void        deactivate_flag(t_label **label)
     {
         if (tmp->flag == active)
         {
-          //  printf("LABEL = |%s|\n", tmp->name);
             tmp->flag = inactive;
             return ;
         }
@@ -48,7 +47,7 @@ void    print_dic(t_label *label)
     printf("\n");
 }
 
-int     get_label(t_file *file, char **wd, __unused int ret, char **end)
+int     get_label(t_file *file, char **wd, char *ptr, char **end)
 {
     t_label    *tmp;
     t_label    *new;
@@ -57,9 +56,8 @@ int     get_label(t_file *file, char **wd, __unused int ret, char **end)
         return (EXIT_ERROR);
 //check valid chars
 //what if existing label:, diff inst.??
-//add file->flag to 1 if existing;
     deactivate_flag(&(file->label));
-    *end = *end + 1;
+    *end = (*end != ptr) ? *end + 1 : *end;
     if (file->label == NULL)
         file->label = new;
     else
@@ -73,6 +71,6 @@ int     get_label(t_file *file, char **wd, __unused int ret, char **end)
         }
         tmp->next = new;
     }
-    print_dic(file->label);
+  //  print_dic(file->label);
     return (EXIT_SUCCESS);
 }

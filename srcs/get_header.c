@@ -1,7 +1,7 @@
 #include <asm.h>
 #include <asm_errors.h>
 
-int     get_champ_name(t_file *file, __unused char **wd, __unused int ret, char **end)
+int     get_champ_name(t_file *file, __unused char **wd, __unused char *ptr, char **end)
 {
     char    *p;
     int     size;
@@ -23,7 +23,7 @@ int     get_champ_name(t_file *file, __unused char **wd, __unused int ret, char 
     return (EXIT_ERROR);
 }
 
-int     get_comment(t_file *file, __unused char **wd, __unused int ret, char **end)
+int     get_comment(t_file *file, __unused char **wd, __unused char *ptr, char **end)
 {
     char    *p;
     int     size;

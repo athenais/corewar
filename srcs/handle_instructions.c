@@ -45,19 +45,27 @@ int         valid_instruction_format(int arg, char *str)
     return (EXIT_SUCCESS);
 }
 
-char      *ft_trim(char **split)
+int     ft_trim(char **split)
 {
     //watch out for free maybe return pointer to split;
     char    *str;
+    int     cnt;
 
+    cnt = 0;
     str = *split;
     while (*str && ft_iswhitespace(*str))
+    {
         str++;
+        cnt++;
+    }
     *split = str;
     while (*str && *str != '#' && !(ft_iswhitespace(*str)))
+    {
         str++;
+        cnt++;
+    }
     *str = '\0';
-    return (str);        
+    return (cnt + 1);        
 }
 //check for 32 bits
 int         valid_values(char *str, int direct)
@@ -90,7 +98,7 @@ int         valid_values(char *str, int direct)
     return (EXIT_SUCCESS);        
 }
 
-int         get_instruction(t_file *file, char **wd, __unused int ret, char **end)
+int         get_instruction(t_file *file, char **wd, char *ptr, char **end)
 {
     int     index;
     char    **split;
@@ -99,24 +107,23 @@ int         get_instruction(t_file *file, char **wd, __unused int ret, char **en
     if ((index = is_instruction(*wd, file->op_tab)) < 0)
         return (ft_puterror(OPFMT));
     arg = file->op_tab[index].arg;
+
     if (valid_instruction_format(arg, *end + 1) == EXIT_SUCCESS)
     {
         split = ft_strsplit(*end + 1, ',');
         while (arg--)
         {
-            *end = ft_trim(&(*split));
+            *end += ft_trim(&(*split));
             if (**split != DIRECT_CHAR)
             {
-                if (valid_values(*split, 0) == EXIT_ERROR)
-                    return(ft_puterror(OPFMT));
+               if (valid_values(*split, 0) == EXIT_ERROR)
+                 return(ft_puterror(OPFMT));
             }    
-            else
-                if (valid_values((*split + 1), 1) == EXIT_ERROR)
-                    return(ft_puterror(OPFMT));
+            else if (valid_values((*split + 1), 1) == EXIT_ERROR)
+                return(ft_puterror(OPFMT));
             split++;
         }
     }
-    //to pass ptr '\n';
-    *end = *end + 1;
+    *end = (*end != ptr) ? *end + 1 : *end;
     return (EXIT_SUCCESS);
 }

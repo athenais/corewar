@@ -33,8 +33,8 @@ uint8_t					get_funptr_index(char *start, t_file *file, int size)
 	return (0);
 }
 
-int						parse_line(t_file *file, char **buff, int ret,
-	int (**funptr)(t_file *, char **, int , char **))
+int						parse_line(t_file *file, char **buff, char *ptr,
+	int (**funptr)(t_file *, char **, char *, char **))
 {
 	static	uint8_t		index;
 	char				*start;
@@ -44,10 +44,10 @@ int						parse_line(t_file *file, char **buff, int ret,
 		return (EXIT_SUCCESS);
 	if ((index = get_funptr_index(start, file, (int)(end - start))))
 	{	
-		if ((funptr[index])(file, &start, ret, &end) != EXIT_SUCCESS)
+		if ((funptr[index])(file, &start, ptr, &end) != EXIT_SUCCESS)
 			return (EXIT_ERROR);
 		printf("buff = |%s|\n", end);
-		return (parse_line(file, &end, ret, funptr));
+		return (parse_line(file, &end, ptr, funptr));
 	}
 	if (*start == '#')
 		return (EXIT_SUCCESS);
@@ -59,7 +59,7 @@ int						read_file(t_file *file)
 	char				*buffer;
 	static char			*string;
 	int					ret;
-	int					(*funptr[5])(t_file *, char **, int , char **);
+	int					(*funptr[5])(t_file *, char **, char *, char **);
 
 	funptr[1] = &get_champ_name;
 	funptr[2] = &get_comment;
@@ -72,7 +72,7 @@ int						read_file(t_file *file)
 	{
 		file->bytes += ret;
 		printf("BUFFER = |%s|\n", buffer);
-		if (parse_line(file, &buffer, ret, funptr) == EXIT_ERROR)
+		if (parse_line(file, &buffer, buffer + (ret - 1), funptr) == EXIT_ERROR)
 			return (EXIT_ERROR);
 	}
 	return (EXIT_SUCCESS);	
