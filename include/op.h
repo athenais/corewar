@@ -75,7 +75,7 @@ typedef struct		header_s
   char				comment[COMMENT_LENGTH + 1];
 }					header_t;
 
-typedef struct 	s_op
+typedef struct			s_op
 {
 	char		      *name;
 	int			      arg;

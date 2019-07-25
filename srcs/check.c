@@ -1,6 +1,5 @@
 #include <asm_errors.h>
 #include <asm.h>
-#include "libft/libft.h"
 
 int		check_extension(char *str)
 {

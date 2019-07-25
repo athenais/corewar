@@ -25,6 +25,9 @@
 # define LNAME              "Champion name size is too big"
 # define LCMNT              "Header comment size is too big"
 
+# define OPFMT              "Bad instruction argument"
+# define INVLDCHAR          "Invalid characters"
+
 # define BADOPTION			"Illegal option -- "
 # define BADOPT				"Invalid option value"
 # define NULLOPT			"Couldn't find option value"

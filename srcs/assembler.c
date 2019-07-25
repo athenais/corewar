@@ -3,7 +3,6 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "libft/libft.h"
 #include <asm_errors.h>
 
 uint8_t					get_funptr_index(char *start, t_file *file, int size)
@@ -52,7 +51,7 @@ int						parse_line(t_file *file, char **buff, int ret,
 	}
 	if (*start == '#')
 		return (EXIT_SUCCESS);
-	return (EXIT_ERROR);
+	return (ft_puterror(INVLDCHAR));
 }
 
 int						read_file(t_file *file)

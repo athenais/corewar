@@ -4,9 +4,16 @@
 # define ASM_EXT		".s"
 #include "op.h"
 #include <stdint.h>
+#include "../libft/libft.h"
+
+enum				e_flag {
+	inactive,
+	active
+};
 
 typedef struct		s_label
 {
+	int				flag;
 	char			*name;
 	struct	s_label	*next;
 }					t_label;

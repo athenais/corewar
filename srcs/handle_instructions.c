@@ -1,6 +1,5 @@
-#include <asm.h>
-#include "libft/libft.h"
 #include <asm_errors.h>
+#include <asm.h>
 #include <stdio.h>
 
 int			is_instruction(char *str, t_op *op_tab)
@@ -60,21 +59,24 @@ char      *ft_trim(char **split)
     *str = '\0';
     return (str);        
 }
-
-int         valid_undirect_values(char **str)
+//check for 32 bits
+int         valid_values(char *str, int direct)
 {
-    int     nb;
+    int64_t     nb;
+    char        *tmp;
 
-    nb = 0;
-    if (**str == 'r')
+    if (*str == 'r')
     {
-        *str = *str + 1;
-        if ((nb = ft_atoi_parsing(str)) < 0 || nb > REG_NUMBER)
-            return (EXIT_ERROR);
+        if (!direct)
+        {
+            tmp = str + 1;
+            if ((nb = ft_atoi_parsing(&tmp)) < 0 || nb > REG_NUMBER)
+                return (EXIT_ERROR);
+        }
     }
-    else if (**str == ':')
+    else if (*str == ':')
     {
-        
+        tmp = str + 1;
             //look for existing label
             //-->get_opcode + write
             //else
@@ -83,37 +85,38 @@ int         valid_undirect_values(char **str)
          return (EXIT_SUCCESS);
     }
     else
-    {
-        nb = ft_atoi_parsing(str);
-    }
+        nb = ft_atoi_parsing(&str);
  //   printf("nb = %d \n", nb);
     return (EXIT_SUCCESS);        
 }
 
-int         get_instruction(t_file *file, char **wd, int ret, char **end)
+int         get_instruction(t_file *file, char **wd, __unused int ret, char **end)
 {
     int     index;
     char    **split;
     int     arg;
 
     if ((index = is_instruction(*wd, file->op_tab)) < 0)
-        return (EXIT_ERROR);
+        return (ft_puterror(OPFMT));
     arg = file->op_tab[index].arg;
-    //check if valid vv
-    if (*end != (*wd + ret))
+    if (valid_instruction_format(arg, *end + 1) == EXIT_SUCCESS)
     {
-        if (valid_instruction_format(arg, *end + 1) == EXIT_SUCCESS)
+        split = ft_strsplit(*end + 1, ',');
+        while (arg--)
         {
-            split = ft_strsplit(*end + 1, ',');
-            while (arg--)
+            *end = ft_trim(&(*split));
+            if (**split != DIRECT_CHAR)
             {
-                *end = ft_trim(&(*split));
-                if (**split != DIRECT_CHAR)
-                    valid_undirect_values(&(*split));
-                        //do smthg
-                split++;
-            }
+                if (valid_values(*split, 0) == EXIT_ERROR)
+                    return(ft_puterror(OPFMT));
+            }    
+            else
+                if (valid_values((*split + 1), 1) == EXIT_ERROR)
+                    return(ft_puterror(OPFMT));
+            split++;
         }
-    } 
+    }
+    //to pass ptr '\n';
+    *end = *end + 1;
     return (EXIT_SUCCESS);
 }
