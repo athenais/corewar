@@ -29,7 +29,7 @@ SRCS	=	ft_isaligned.c	ft_isblank.c	ft_isdigit.c	ft_isprintable.c  \
 			ft_readline.c	ft_u32len.c		ft_strcat.c						  \
 			ft_putstr_endl_free.c			ft_variadic_freeing.c			  \
 			ft_bzero.c		ft_strcpy.c		ft_strncpy.c	ft_iswhitespace.c \
-			get_next_word.c	ft_strsplit.c
+			get_next_word.c	ft_strsplit.c	ft_itoa_base.c
 			
 OBJDIR	=	objs/
 

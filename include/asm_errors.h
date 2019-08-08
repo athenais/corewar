@@ -28,6 +28,8 @@
 # define OPFMT              "Bad instruction argument"
 # define INVLDCHAR          "Invalid characters"
 
+# define ERRLABEL           "Label is unknown"
+
 # define BADOPTION			"Illegal option -- "
 # define BADOPT				"Invalid option value"
 # define NULLOPT			"Couldn't find option value"

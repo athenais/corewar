@@ -60,5 +60,5 @@ char				*ft_strcpy(char *dst, char const *src);
 int					ft_iswhitespace(char c);
 int 				get_next_word(char const *str, char **start, char **end);
 char			    **ft_strsplit(char const *s, char c);
-
+char	            *ft_itoa_base(int n, int base);
 #endif

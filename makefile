@@ -44,7 +44,10 @@ SRC			=	main			assembler	\
 				errors			op			\
 				check			get_header	\
 				handle_instructions			\
-				handle_label				
+				handle_label				\
+				parse_label					\
+				asm_tools					\
+				write_to_cor			
 
 LIBFT		=	$(LIBDIR)/libft.a
 

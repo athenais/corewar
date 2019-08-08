@@ -65,7 +65,7 @@ typedef char	t_arg_type;
 
 # define PROG_NAME_LENGTH		(128)
 # define COMMENT_LENGTH			(2048)
-# define COREWAR_EXEC_MAGIC		0xea83f3
+# define COREWAR_EXEC_MAGIC		0xeaf383
 
 typedef struct		header_s
 {
@@ -80,7 +80,7 @@ typedef struct			s_op
 	char		      *name;
 	int			      arg;
 	t_arg_type	  type[3];
-	int			      no1;
+	int			      op_code;
 	int			      no2;
 	char		      *def;
 	int			      no3;

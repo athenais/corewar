@@ -12,6 +12,7 @@
 
 #include <libft.h>
 #include <unistd.h>
+#include <stdio.h>
 
 #define UNLIKELY(x)			__builtin_expect(!!(x), 0)
 

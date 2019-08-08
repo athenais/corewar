@@ -71,9 +71,11 @@ int						read_file(t_file *file)
 	while ((ret = ft_readline(file->fd, &string, &buffer)) > 0)
 	{
 		file->bytes += ret;
+		file->str_len = (off_t)ft_strlen(string);
 		printf("BUFFER = |%s|\n", buffer);
 		if (parse_line(file, &buffer, buffer + (ret - 1), funptr) == EXIT_ERROR)
 			return (EXIT_ERROR);
+		free((void *)buffer);
 	}
 	return (EXIT_SUCCESS);	
 }
@@ -81,10 +83,23 @@ int						read_file(t_file *file)
 int						s_to_cor(char *file_name)
 {
 	t_file 				file;
+	char				*ptr;
+//check if bzero (+1);
 
 	if ((file.fd = open(file_name, O_RDONLY)) == EXIT_ERROR)
 		return (ft_puterror(FILERR));
+	//make function
+	file.hd = malloc(sizeof(header_t));
+	ptr = ft_strrchr(file_name, '.');
+	file.cor = ft_strnew(ptr - file_name + 4);
+	ft_strncpy(file.cor, file_name, ptr - file_name);
+	file.cor = ft_strnjoinfree(file.cor, ".cor", 4);
+	if ((file.fd_cor = open(file.cor, O_CREAT | O_APPEND | O_RDWR, 0666)) == EXIT_ERROR)
+		return (ft_puterror(FILERR));
 	file.label = NULL;
+//	write_to_cor(COREWAR_EXEC_MAGIC, i, &file);
+	ft_bzero(file.hd->prog_name, PROG_NAME_LENGTH);
+	ft_bzero(file.hd->comment, COMMENT_LENGTH);
 	define_op_tab(&file.op_tab);
 	return (read_file(&file));
 }

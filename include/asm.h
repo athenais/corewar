@@ -1,32 +1,47 @@
 #ifndef ASM_H
 # define ASM_H
 
-# define ASM_EXT		".s"
 #include "op.h"
 #include <stdint.h>
+#include <sys/types.h>
 #include "../libft/libft.h"
 
-enum				e_flag {
+# define ASM_EXT		".s"
+
+enum					e_flag {
 	inactive,
 	active
 };
 
-typedef struct		s_label
-{
-	int				flag;
-	char			*name;
-	struct	s_label	*next;
-}					t_label;
+enum					e_byte {
+	c = 8,
+	shrt = 16,
+	i = 32	
+};
 
-typedef	struct		s_file
+enum					e_type {
+	label,
+	instruction
+};
+
+typedef struct			s_label
 {
-	int				fd;
-	int				bytes;
-	char			name[PROG_NAME_LENGTH + 1];
-	char			cmnt[COMMENT_LENGTH + 1];
-	struct	s_label	*label;
-	struct	s_op 	 *op_tab;
-}					t_file;
+	int					flag;
+	char				*name;
+	struct	s_label		*next;
+}						t_label;
+
+typedef	struct			s_file
+{
+	int					fd;
+	int					fd_cor;
+	off_t				bytes;
+	off_t				str_len;
+	char				*cor;
+	struct 	header_s	*hd;
+	struct	s_label		*label;
+	struct	s_op 		*op_tab;
+}						t_file;
 
 int			check_extension(char *str);
 int			s_to_cor(char *file_name);
@@ -35,6 +50,14 @@ int	     	get_champ_name(t_file *file, char **wd, char *ptr, char **end);
 int		    get_comment(t_file *file, char **wd, char *ptr, char **end);
 int		    get_label(t_file *file, char **wd, char *ptr, char **end);
 int			get_instruction(t_file *file, char **wd, char *ptr, char **end);
+int         handle_instruction(t_file *file, char **str, int index);
+int         valid_instruction_format(char *str, int type);
 int			is_instruction(char *str, t_op *op_tab);
+int			ft_trim(char **split, int arg);
+void        write_to_cor(int byte, int oct, t_file *file);
+t_label     *reset_file_read(t_file *file, off_t bytes, char **str, t_label *label);
+t_label		*make_label(char **wd, t_file *file);
+t_label		*label_exist(char *str, t_file *file);
+t_label		*parse_file_label(char *str, t_file *file, off_t bytes);
 
 #endif

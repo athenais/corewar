@@ -19,7 +19,7 @@ void        deactivate_flag(t_label **label)
     return;
 }
 
-t_label     *make_label(char *word)
+t_label     *new_label(char *word)
 {
     t_label *new;
     int     size;
@@ -47,17 +47,30 @@ void    print_dic(t_label *label)
     printf("\n");
 }
 
-int     get_label(t_file *file, char **wd, char *ptr, char **end)
+t_label     *label_exist(char *str, t_file *file)
+{
+    t_label     *tmp;
+ 
+    tmp = file->label;
+    while (tmp)
+    {
+        if (ft_strlen(str) == ft_strlen(tmp->name))
+        {
+            if (ft_strcmp(tmp->name, str + 1) == 58)
+                return (tmp);
+        }
+        tmp = tmp->next;
+    }
+    return (NULL);
+}
+
+t_label     *make_label(char **wd, t_file *file)
 {
     t_label    *tmp;
     t_label    *new;
 
-    if (!(new = make_label(*wd)))
-        return (EXIT_ERROR);
-//check valid chars
-//what if existing label:, diff inst.??
-    deactivate_flag(&(file->label));
-    *end = (*end != ptr) ? *end + 1 : *end;
+    if (!(new = new_label(*wd)))
+        return (NULL);
     if (file->label == NULL)
         file->label = new;
     else
@@ -66,11 +79,24 @@ int     get_label(t_file *file, char **wd, char *ptr, char **end)
         while (tmp->next)
         {
             if (!(ft_strcmp(*wd, tmp->name)) && (tmp->flag = active))
-                return (EXIT_SUCCESS);
+                return (new);
             tmp = tmp->next;
         }
         tmp->next = new;
     }
-  //  print_dic(file->label);
+    return (new);
+}
+
+int     get_label(t_file *file, char **wd, char *ptr, char **end)
+{
+//check valid chars
+//what if existing label:, diff inst.??
+
+    deactivate_flag(&(file->label));
+    if (valid_instruction_format(*wd, label) != EXIT_SUCCESS)
+        return (ft_puterror(OPFMT));
+    *end = (*end != ptr) ? *end + 1 : *end;
+    if (make_label(wd, file) == NULL)
+        return (EXIT_ERROR);
     return (EXIT_SUCCESS);
 }
