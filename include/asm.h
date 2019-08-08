@@ -50,7 +50,7 @@ int	     	get_champ_name(t_file *file, char **wd, char *ptr, char **end);
 int		    get_comment(t_file *file, char **wd, char *ptr, char **end);
 int		    get_label(t_file *file, char **wd, char *ptr, char **end);
 int			get_instruction(t_file *file, char **wd, char *ptr, char **end);
-int         handle_instruction(t_file *file, char **str, int index);
+int         handle_instruction(t_file *file, char **str, int index, int *ocp);
 int         valid_instruction_format(char *str, int type);
 int			is_instruction(char *str, t_op *op_tab);
 int			ft_trim(char **split, int arg);

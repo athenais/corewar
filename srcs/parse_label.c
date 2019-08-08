@@ -39,7 +39,7 @@ int                find_instruction(char **buff, char *ptr, t_file *file)
             if ((index = is_instruction(start, file->op_tab)) >= 0)
             {
                 end = (end != ptr) ? end + 1 : end;
-                return (handle_instruction(file, &end, index));
+                return (handle_instruction(file, &end, index, 0));
             }
         }
         if (end != ptr)

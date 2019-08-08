@@ -17,21 +17,23 @@ int			is_instruction(char *str, t_op *op_tab)
 
 //make it work for label vv
 //check for 32 bits
-int         valid_values(char *str, int direct, t_file *file)
+int         valid_register(char *str)
+{
+    char    *tmp;
+    int64_t nb;
+
+    tmp = str + 1;
+    if ((nb = ft_atoi_parsing(&tmp)) < 0 || nb > 99)
+        return (EXIT_ERROR);
+    return (EXIT_SUCCESS);
+}
+
+int         valid_values(char *str, __unused int direct, t_file *file)
 {
     int64_t     nb;
     t_label     *label;
-    char        *tmp;
 
-    if (*str == 'r')
-    {
-        if (direct)
-            return (EXIT_ERROR);
-        tmp = str + 1;
-        if ((nb = ft_atoi_parsing(&tmp)) < 0 || nb > REG_NUMBER)
-            return (EXIT_ERROR);
-    }
-    else if (*str == ':')
+    if (*str == ':')
     {
         if ((label = label_exist(str, file)) == NULL)
         {
@@ -52,10 +54,11 @@ int         valid_values(char *str, int direct, t_file *file)
     return (EXIT_SUCCESS);        
 }
 
-int         handle_instruction(t_file *file, char **str, int index)
+int         handle_instruction(t_file *file, char **str, int index, int *ocp)
 {
     char    **split;
     int     arg;
+ //   unsigned char test1;
 //add valid inst
     arg = file->op_tab[index].arg;
     split = ft_strsplit(*str, ',');
@@ -64,13 +67,22 @@ int         handle_instruction(t_file *file, char **str, int index)
         *str += ft_trim(&(*split), arg);
         if (valid_instruction_format(*split, instruction) != EXIT_SUCCESS)
             return (ft_puterror(OPFMT));
-        if (**split != DIRECT_CHAR)
+        if (**split == 'r' && valid_register(*split) == EXIT_SUCCESS)
         {
+           *ocp += T_REG; 
+        }
+        else if (**split != DIRECT_CHAR)
+        {            
             if (valid_values(*split, 0, file) == EXIT_ERROR)
                 return(ft_puterror(OPFMT));
+            *ocp += T_DIR;
         }
-        else if (valid_values((*split + 1), 1, file) == EXIT_ERROR)
-            return(ft_puterror(OPFMT));
+        else
+        {
+            if (valid_values((*split + 1), 1, file) == EXIT_ERROR)
+                return(ft_puterror(OPFMT));
+            *ocp += T_IND;
+        }   
         split++;
     }
     return (EXIT_SUCCESS);
@@ -79,12 +91,17 @@ int         handle_instruction(t_file *file, char **str, int index)
 int         get_instruction(t_file *file, char **wd, char *ptr, char **end)
 {
     int     index;
+    int     ocp;
 
+    ocp = 0;
     if ((index = is_instruction(*wd, file->op_tab)) < 0)
         return (ft_puterror(OPFMT));
+    else
+        write_to_cor(file->op_tab[index].op_code, c, file);
     *end = (*end != ptr) ? *end + 1 : *end;
-    if (handle_instruction(file, end, index) != EXIT_SUCCESS)
+    if (handle_instruction(file, end, index, &ocp) != EXIT_SUCCESS)
         return (EXIT_FAILURE);
+    write_to_cor(ocp, c, file);
     //write to file code;
     return (EXIT_SUCCESS);
 }

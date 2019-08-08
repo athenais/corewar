@@ -94,7 +94,7 @@ int						s_to_cor(char *file_name)
 	file.cor = ft_strnew(ptr - file_name + 4);
 	ft_strncpy(file.cor, file_name, ptr - file_name);
 	file.cor = ft_strnjoinfree(file.cor, ".cor", 4);
-	if ((file.fd_cor = open(file.cor, O_CREAT | O_APPEND | O_RDWR, 0666)) == EXIT_ERROR)
+	if ((file.fd_cor = open(file.cor, O_CREAT | O_RDWR, 0666)) == EXIT_ERROR)
 		return (ft_puterror(FILERR));
 	file.label = NULL;
 //	write_to_cor(COREWAR_EXEC_MAGIC, i, &file);
