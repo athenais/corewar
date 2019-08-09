@@ -58,6 +58,9 @@ int         handle_instruction(t_file *file, char **str, int index, int *ocp)
 {
     char    **split;
     int     arg;
+    int     shift;
+
+    shift = c - 2;
  //   unsigned char test1;
 //add valid inst
     arg = file->op_tab[index].arg;
@@ -69,19 +72,19 @@ int         handle_instruction(t_file *file, char **str, int index, int *ocp)
             return (ft_puterror(OPFMT));
         if (**split == 'r' && valid_register(*split) == EXIT_SUCCESS)
         {
-           *ocp += T_REG; 
+            generate_ocp(ocp, T_REG, &shift);
         }
         else if (**split != DIRECT_CHAR)
         {            
             if (valid_values(*split, 0, file) == EXIT_ERROR)
                 return(ft_puterror(OPFMT));
-            *ocp += T_DIR;
+             generate_ocp(ocp, T_IND, &shift);
         }
         else
         {
             if (valid_values((*split + 1), 1, file) == EXIT_ERROR)
                 return(ft_puterror(OPFMT));
-            *ocp += T_IND;
+            generate_ocp(ocp, T_DIR, &shift);    
         }   
         split++;
     }
@@ -101,7 +104,8 @@ int         get_instruction(t_file *file, char **wd, char *ptr, char **end)
     *end = (*end != ptr) ? *end + 1 : *end;
     if (handle_instruction(file, end, index, &ocp) != EXIT_SUCCESS)
         return (EXIT_FAILURE);
-    write_to_cor(ocp, c, file);
+    if (file->op_tab[index].ocp)
+        write_to_cor(ocp, c, file);
     //write to file code;
     return (EXIT_SUCCESS);
 }

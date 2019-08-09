@@ -24,6 +24,16 @@ int         valid_instruction_format(char *str, int type)
     return (EXIT_SUCCESS);
 }
 
+void    generate_ocp(int *ocp, t_arg_type type, int *shift)
+{
+    int     tmp;
+
+    tmp = (type == T_IND) ? 3 : type;
+    tmp <<= *shift;
+    *ocp |= tmp;
+    *shift -= 2;
+}
+
 int     ft_trim(char **split, int arg)
 {
     char    *str;
