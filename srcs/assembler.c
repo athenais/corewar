@@ -80,26 +80,22 @@ int						read_file(t_file *file)
 	return (EXIT_SUCCESS);	
 }
 
-int						s_to_cor(char *file_name)
+int						s_to_cor(char *file_name, t_file *file)
 {
-	t_file 				file;
 	char				*ptr;
-//check if bzero (+1);
 
-	if ((file.fd = open(file_name, O_RDONLY)) == EXIT_ERROR)
+	if ((file->fd = open(file_name, O_RDONLY)) == EXIT_ERROR)
 		return (ft_puterror(FILERR));
-	//make function
-	file.hd = malloc(sizeof(header_t));
+	file->hd = malloc(sizeof(header_t));
+	ft_memset(file->hd, '\0', sizeof(header_t));
 	ptr = ft_strrchr(file_name, '.');
-	file.cor = ft_strnew(ptr - file_name + 4);
-	ft_strncpy(file.cor, file_name, ptr - file_name);
-	file.cor = ft_strnjoinfree(file.cor, ".cor", 4);
-	if ((file.fd_cor = open(file.cor, O_CREAT | O_RDWR, 0666)) == EXIT_ERROR)
+	file->cor = ft_strnew(ptr - file_name + 4);
+	ft_strncpy(file->cor, file_name, ptr - file_name);
+	file->cor = ft_strnjoinfree(file->cor, ".cor", 4);
+	if ((file->fd_cor = open(file->cor, O_CREAT | O_RDWR, 0666)) == EXIT_ERROR)
 		return (ft_puterror(FILERR));
-	file.label = NULL;
-//	write_to_cor(COREWAR_EXEC_MAGIC, i, &file);
-	ft_bzero(file.hd->prog_name, PROG_NAME_LENGTH);
-	ft_bzero(file.hd->comment, COMMENT_LENGTH);
-	define_op_tab(&file.op_tab);
-	return (read_file(&file));
+	file->label = NULL;
+	write(file->fd_cor, file->hd, sizeof(header_t));
+	define_op_tab(&file->op_tab);
+	return (read_file(file));
 }

@@ -17,7 +17,7 @@ int			is_instruction(char *str, t_op *op_tab)
 
 //make it work for label vv
 //check for 32 bits
-int         valid_register(char *str)
+int         valid_register(char *str, t_inst *inst, int i)
 {
     char    *tmp;
     int64_t nb;
@@ -25,10 +25,11 @@ int         valid_register(char *str)
     tmp = str + 1;
     if ((nb = ft_atoi_parsing(&tmp)) < 0 || nb > 99)
         return (EXIT_ERROR);
+    inst->param[i] = nb;
     return (EXIT_SUCCESS);
 }
 
-int         valid_values(char *str, __unused int direct, t_file *file)
+int         valid_values(char *str, t_file *file, t_inst *inst, int i)
 {
     int64_t     nb;
     t_label     *label;
@@ -37,54 +38,57 @@ int         valid_values(char *str, __unused int direct, t_file *file)
     {
         if ((label = label_exist(str, file)) == NULL)
         {
-            printf("%s = label\n", str);
-            if ((label = parse_file_label(str, file, file->bytes)) == NULL)
-                return (ft_puterror(ERRLABEL)); 
-            else
-            {
+     //       printf("%s = label\n", str);
+     //       if ((label = parse_file_label(str, file, file->bytes)) == NULL)
+     //           return (ft_puterror(ERRLABEL)); 
+     //       else
+     //       {
                 printf("yeah!\n");
-            }
+     //       }
             
         }
+        inst->param[i] = 0; 
         return (EXIT_SUCCESS);
     }
     else
+    {
         nb = ft_atoi_parsing(&str);
- //   printf("nb = %d \n", nb);
+        inst->param[i] = nb;
+    }
     return (EXIT_SUCCESS);        
 }
 
-int         handle_instruction(t_file *file, char **str, int index, int *ocp)
+int         handle_instruction(t_file *file, char **str, t_inst *inst)
 {
     char    **split;
     int     arg;
     int     shift;
+    int     i;
 
     shift = c - 2;
- //   unsigned char test1;
-//add valid inst
-    arg = file->op_tab[index].arg;
+    arg = file->op_tab[inst->index].arg;
     split = ft_strsplit(*str, ',');
-    while (arg-- && *split)
+    i = -1;
+    while (arg-- && *split && i++ < file->op_tab[inst->index].arg)
     {
         *str += ft_trim(&(*split), arg);
         if (valid_instruction_format(*split, instruction) != EXIT_SUCCESS)
             return (ft_puterror(OPFMT));
-        if (**split == 'r' && valid_register(*split) == EXIT_SUCCESS)
+        if (**split == 'r' && valid_register(*split, inst, i) == EXIT_SUCCESS)
         {
-            generate_ocp(ocp, T_REG, &shift);
+            generate_ocp(&inst->ocp, T_REG, &shift);
         }
         else if (**split != DIRECT_CHAR)
         {            
-            if (valid_values(*split, 0, file) == EXIT_ERROR)
+            if (valid_values(*split, file, inst, i) == EXIT_ERROR)
                 return(ft_puterror(OPFMT));
-             generate_ocp(ocp, T_IND, &shift);
+             generate_ocp(&inst->ocp, T_IND, &shift);
         }
         else
         {
-            if (valid_values((*split + 1), 1, file) == EXIT_ERROR)
+            if (valid_values((*split + 1), file, inst, i) == EXIT_ERROR)
                 return(ft_puterror(OPFMT));
-            generate_ocp(ocp, T_DIR, &shift);    
+            generate_ocp(&inst->ocp, T_DIR, &shift);    
         }   
         split++;
     }
@@ -93,19 +97,15 @@ int         handle_instruction(t_file *file, char **str, int index, int *ocp)
 
 int         get_instruction(t_file *file, char **wd, char *ptr, char **end)
 {
-    int     index;
-    int     ocp;
 
-    ocp = 0;
-    if ((index = is_instruction(*wd, file->op_tab)) < 0)
+    t_inst  inst;
+
+    inst.ocp = 0;
+    if ((inst.index = is_instruction(*wd, file->op_tab)) < 0)
         return (ft_puterror(OPFMT));
-    else
-        write_to_cor(file->op_tab[index].op_code, c, file);
     *end = (*end != ptr) ? *end + 1 : *end;
-    if (handle_instruction(file, end, index, &ocp) != EXIT_SUCCESS)
+    if (handle_instruction(file, end, &inst) != EXIT_SUCCESS)
         return (EXIT_FAILURE);
-    if (file->op_tab[index].ocp)
-        write_to_cor(ocp, c, file);
-    //write to file code;
+    write_instruction(file, inst);
     return (EXIT_SUCCESS);
 }

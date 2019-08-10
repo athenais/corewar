@@ -3,6 +3,35 @@
 #include <unistd.h>
 #include <asm.h>
 
+void    write_string(t_file *file, int len)
+{
+    int     size;
+    char    *str;
+
+    str = (len == COMMENT_LENGTH) ? file->hd->comment : file->hd->prog_name;
+    size = ft_strlen(str);
+    while (*str)
+    {
+        write_to_cor((int)*str, c, file);
+        str++;
+    }
+    while (size < len)
+    {
+        write_to_cor('\0', c, file);
+        size++;
+    }
+
+}
+
+void    write_header(t_file *file)
+{
+    write_to_cor(COREWAR_EXEC_MAGIC, i, file);
+    write_string(file, PROG_NAME_LENGTH);
+    write_to_cor('\0', i, file);
+    write_to_cor(file->hd->prog_size, i, file);
+    write_string(file, COMMENT_LENGTH);
+}
+
 char	*ft_itoa_bse(int n, int base, int len)
 {
 	char	*new;
@@ -44,7 +73,7 @@ void        write_binary_to_file(const char *code, t_file *file, uint8_t *buff, 
     //add dumping;  
 }
 
-void        write_to_cor(int byte, int oct, t_file *file)
+int        write_to_cor(int byte, int oct, t_file *file)
 {
     char        *byte_code;
     int         bit_cnt;
@@ -57,5 +86,5 @@ void        write_to_cor(int byte, int oct, t_file *file)
     write_binary_to_file(byte_code, file, &buffer, &bit_cnt);
     buffer = 0;
     bit_cnt = 0;
- //   printf("%s = byte\n", byte_code);
+    return (oct / c);
 }

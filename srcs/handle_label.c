@@ -87,16 +87,16 @@ t_label     *make_label(char **wd, t_file *file)
     return (new);
 }
 
-int     get_label(t_file *file, char **wd, char *ptr, char **end)
+int     get_label(__unused t_file *file, char **wd, char *ptr, char **end)
 {
 //check valid chars
 //what if existing label:, diff inst.??
 
-    deactivate_flag(&(file->label));
+//    deactivate_flag(&(file->label));
     if (valid_instruction_format(*wd, label) != EXIT_SUCCESS)
         return (ft_puterror(OPFMT));
     *end = (*end != ptr) ? *end + 1 : *end;
-    if (make_label(wd, file) == NULL)
-        return (EXIT_ERROR);
+//    if (make_label(wd, file) == NULL)
+//        return (EXIT_ERROR);
     return (EXIT_SUCCESS);
 }

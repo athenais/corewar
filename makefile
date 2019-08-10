@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/06/06 22:15:30 by thflahau         ###   ########.fr        #
+#    Updated: 2019/08/10 15:48:03 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,8 +45,8 @@ SRC			=	main			assembler	\
 				check			get_header	\
 				handle_instructions			\
 				handle_label				\
-				parse_label					\
 				asm_tools					\
+				write_inst					\
 				write_to_cor			
 
 LIBFT		=	$(LIBDIR)/libft.a

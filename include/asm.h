@@ -24,6 +24,13 @@ enum					e_type {
 	instruction
 };
 
+typedef struct			s_inst 
+{
+	int					index;
+	int					ocp;
+	int					param[3];
+}						t_inst;
+
 typedef struct			s_label
 {
 	int					flag;
@@ -44,19 +51,21 @@ typedef	struct			s_file
 }						t_file;
 
 int			check_extension(char *str);
-int			s_to_cor(char *file_name);
+int			s_to_cor(char *file_name, t_file *file);
 void		define_op_tab(t_op **tab);
 int	     	get_champ_name(t_file *file, char **wd, char *ptr, char **end);
 int		    get_comment(t_file *file, char **wd, char *ptr, char **end);
 int		    get_label(t_file *file, char **wd, char *ptr, char **end);
 int			get_instruction(t_file *file, char **wd, char *ptr, char **end);
-int         handle_instruction(t_file *file, char **str, int index, int *ocp);
+int         handle_instruction(t_file *file, char **str, t_inst *inst);
 int         valid_instruction_format(char *str, int type);
 int			is_instruction(char *str, t_op *op_tab);
 int			ft_trim(char **split, int arg);
-void        write_to_cor(int byte, int oct, t_file *file);
+int	        write_to_cor(int byte, int oct, t_file *file);
 char		*ft_itoa_bse(int n, int base, int len);
 void    	generate_ocp(int *ocp, t_arg_type type, int *shift);
+void    	write_header(t_file *file);
+int    		write_instruction(t_file *file, t_inst inst);
 t_label     *reset_file_read(t_file *file, off_t bytes, char **str, t_label *label);
 t_label		*make_label(char **wd, t_file *file);
 t_label		*label_exist(char *str, t_file *file);
