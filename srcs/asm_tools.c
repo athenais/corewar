@@ -1,5 +1,6 @@
 #include <asm_errors.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <asm.h>
 
@@ -34,36 +35,33 @@ void    generate_ocp(int *ocp, t_arg_type type, int *shift)
     *shift -= 2;
 }
 
-int     ft_trim(char **split, int arg)
+int     ft_trim(char *split, char **s, int arg)
 {
     char    *str;
     int     size;
- //   beware *split for free;
- //beware no space before '#'
-    size = 0;
-    str = *split;
+	int		word_size;
+
+	//watch out '#'
+    str = split;
     while (*str && ft_iswhitespace(*str))
-    {
         str++;
-        size++;
-    }
-    *split = str;
+	size = (int)(str - split);
+	*s = str;	
     while (*str && *str != '#' && !(ft_iswhitespace(*str))) 
-    {
         str++;
-        size++;
-    }
+  	word_size = (int)(str - *s);
+	size += word_size;
+	*s = ft_strndup(*s, word_size);
     while (arg && (ft_iswhitespace(*str)))
     {
         size++;
-        *str = '\0';
         str++;
     }
-    *str = '\0';
     if (arg)
         return (size + 1);
     return (size);        
 }
+
 
 t_label         *reset_file_read(t_file *file, off_t bytes, __unused char **str, t_label *label)
 {

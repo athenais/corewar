@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/08/10 15:48:03 by abrunet          ###   ########.fr        #
+#    Updated: 2019/08/10 19:32:00 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,10 +30,6 @@ endif
 CFLAGS		=	-Wall						\
 				-Wextra						\
 				-Werror						\
-				-std=c99					\
-				-pedantic					\
-				-fsanitize=address			\
-				-O3							\
 				-g
 
 INC			=	-I $(HDR)

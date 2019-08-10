@@ -72,11 +72,15 @@ int						read_file(t_file *file)
 	{
 		file->bytes += ret;
 		file->str_len = (off_t)ft_strlen(string);
-		printf("BUFFER = |%s|\n", buffer);
+//		printf("BUFFER = |%s|\n", buffer);
 		if (parse_line(file, &buffer, buffer + (ret - 1), funptr) == EXIT_ERROR)
+		{
+			free((void *)buffer);
 			return (EXIT_ERROR);
+		}
 		free((void *)buffer);
 	}
+	free((void *)buffer);
 	return (EXIT_SUCCESS);	
 }
 

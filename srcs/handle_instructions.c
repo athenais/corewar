@@ -58,40 +58,57 @@ int         valid_values(char *str, t_file *file, t_inst *inst, int i)
     return (EXIT_SUCCESS);        
 }
 
+void		free_spl(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+	split = NULL;
+}
+
 int         handle_instruction(t_file *file, char **str, t_inst *inst)
 {
     char    **split;
+	char	*s;
     int     arg;
     int     shift;
     int     i;
 
+	s = NULL;
     shift = c - 2;
     arg = file->op_tab[inst->index].arg;
     split = ft_strsplit(*str, ',');
     i = -1;
-    while (arg-- && *split && i++ < file->op_tab[inst->index].arg)
+    while (arg-- && i++ < file->op_tab[inst->index].arg)
     {
-        *str += ft_trim(&(*split), arg);
-        if (valid_instruction_format(*split, instruction) != EXIT_SUCCESS)
+        *str += ft_trim(split[i], &s, arg);
+        if (valid_instruction_format(s, instruction) != EXIT_SUCCESS)
             return (ft_puterror(OPFMT));
-        if (**split == 'r' && valid_register(*split, inst, i) == EXIT_SUCCESS)
+        if (*s == 'r' && valid_register(s, inst, i) == EXIT_SUCCESS)
         {
             generate_ocp(&inst->ocp, T_REG, &shift);
         }
-        else if (**split != DIRECT_CHAR)
+        else if (*s != DIRECT_CHAR)
         {            
-            if (valid_values(*split, file, inst, i) == EXIT_ERROR)
+            if (valid_values(s, file, inst, i) == EXIT_ERROR)
                 return(ft_puterror(OPFMT));
              generate_ocp(&inst->ocp, T_IND, &shift);
         }
         else
         {
-            if (valid_values((*split + 1), file, inst, i) == EXIT_ERROR)
+            if (valid_values((s + 1), file, inst, i) == EXIT_ERROR)
                 return(ft_puterror(OPFMT));
             generate_ocp(&inst->ocp, T_DIR, &shift);    
-        }   
-        split++;
+        }
+		free((void *)s);
     }
+	free_spl(split);
     return (EXIT_SUCCESS);
 }
 

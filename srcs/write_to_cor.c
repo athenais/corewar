@@ -82,9 +82,11 @@ int        write_to_cor(int byte, int oct, t_file *file)
 
     buffer = 0;
     bit_cnt = 0;
-    byte_code = ft_itoa_bse(byte, 2, oct);
+    if (!(byte_code = ft_itoa_bse(byte, 2, oct)))
+		return (-1);
     write_binary_to_file(byte_code, file, &buffer, &bit_cnt);
     buffer = 0;
     bit_cnt = 0;
+	free((void *)byte_code);
     return (oct / c);
 }
