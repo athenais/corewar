@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:18 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/11 14:33:55 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/11 15:51:40 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void		free_split(char **split)
 	split = NULL;
 }
 
-int			is_instruction(char *str, t_op *op_tab)
+int			is_instruction(char *str, t_op const *op_tab)
 {
 	int		index;
 

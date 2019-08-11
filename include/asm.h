@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:58:03 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/11 13:58:06 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/11 15:51:13 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,18 @@ typedef	struct			s_file
 	char				*cor;
 	struct 	header_s	*hd;
 	struct	s_label		*label;
-	struct	s_op 		*op_tab;
+	struct	s_op const	*op_tab;
 }						t_file;
 
 int			check_extension(char *str);
 int			s_to_cor(char *file_name, t_file *file);
-void		define_op_tab(t_op **tab);
 int	     	get_champ_name(t_file *file, char **wd, char *ptr, char **end);
 int		    get_comment(t_file *file, char **wd, char *ptr, char **end);
 int		    get_label(t_file *file, char **wd, char *ptr, char **end);
 int			get_instruction(t_file *file, char **wd, char *ptr, char **end);
 int         handle_instruction(t_file *file, char **str, t_inst *inst);
 int         valid_instruction_format(char *str, int type);
-int			is_instruction(char *str, t_op *op_tab);
+int			is_instruction(char *str, t_op const *op_tab);
 int	        write_to_cor(int byte, int oct, t_file *file);
 char		*ft_itoa_bse(int n, int base, int len);
 void    	generate_ocp(int *ocp, t_arg_type type, int *shift);

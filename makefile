@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/08/10 19:32:00 by abrunet          ###   ########.fr        #
+#    Updated: 2019/08/11 15:40:21 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ CLIBFT		=	-L $(LIBDIR) -lft
 
 ######### SOURCES #########
 SRC			=	main			assembler	\
-				errors			op			\
+				errors						\
 				check			get_header	\
 				handle_instructions			\
 				handle_label				\
