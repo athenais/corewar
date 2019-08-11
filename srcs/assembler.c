@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   assembler.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/08/11 13:59:08 by abrunet           #+#    #+#             */
+/*   Updated: 2019/08/11 14:59:56 by abrunet          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <asm.h>
 #include <fcntl.h>
@@ -43,7 +55,7 @@ int						parse_line(t_file *file, char **buff, char *ptr,
 	if (!(get_next_word((char const *)*buff, &start, &end)))
 		return (EXIT_SUCCESS);
 	if ((index = get_funptr_index(start, file, (int)(end - start))))
-	{	
+	{
 		if ((funptr[index])(file, &start, ptr, &end) != EXIT_SUCCESS)
 			return (EXIT_ERROR);
 		printf("buff = |%s|\n", end);
@@ -72,7 +84,6 @@ int						read_file(t_file *file)
 	{
 		file->bytes += ret;
 		file->str_len = (off_t)ft_strlen(string);
-//		printf("BUFFER = |%s|\n", buffer);
 		if (parse_line(file, &buffer, buffer + (ret - 1), funptr) == EXIT_ERROR)
 		{
 			free((void *)buffer);
@@ -81,7 +92,7 @@ int						read_file(t_file *file)
 		free((void *)buffer);
 	}
 	free((void *)buffer);
-	return (EXIT_SUCCESS);	
+	return (EXIT_SUCCESS);
 }
 
 int						s_to_cor(char *file_name, t_file *file)

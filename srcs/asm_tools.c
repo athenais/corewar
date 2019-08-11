@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   asm_tools.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/08/11 13:57:18 by abrunet           #+#    #+#             */
+/*   Updated: 2019/08/11 14:33:55 by abrunet          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <asm_errors.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -62,6 +74,32 @@ int     ft_trim(char *split, char **s, int arg)
     return (size);        
 }
 
+void		free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+	split = NULL;
+}
+
+int			is_instruction(char *str, t_op *op_tab)
+{
+	int		index;
+
+	index = -1;
+	while (op_tab[++index].name)
+	{
+		if (!(ft_strcmp(str, op_tab[index].name)))
+			return (index);
+	}
+	return (EXIT_ERROR);
+}
 
 t_label         *reset_file_read(t_file *file, off_t bytes, __unused char **str, t_label *label)
 {

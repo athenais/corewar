@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   errors.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/08/11 13:58:49 by abrunet           #+#    #+#             */
+/*   Updated: 2019/08/11 14:04:06 by abrunet          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include <string.h>
 #include <stdio.h>
@@ -6,7 +18,7 @@
 
 void				ft_print_asm_usage(void)
 {
-	printf("usage: ./asm <file.s>\n");	
+	printf("usage: ./asm <file.s>\n");
 }
 
 int					ft_puterror(char const *string)
