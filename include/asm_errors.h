@@ -30,6 +30,7 @@
 
 # define ERRLABEL           "Label is unknown"
 
+# define BADPARAM           "argument type for instruction is not valid"
 # define BADOPTION			"Illegal option -- "
 # define BADOPT				"Invalid option value"
 # define NULLOPT			"Couldn't find option value"

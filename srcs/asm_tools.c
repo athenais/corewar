@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:18 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/11 15:51:40 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/12 15:34:39 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int         valid_instruction_format(char *str, int type)
     return (EXIT_SUCCESS);
 }
 
-void    generate_ocp(int *ocp, t_arg_type type, int *shift)
+int    generate_ocp(int *ocp, t_arg_type type, int *shift)
 {
     int     tmp;
 
@@ -45,6 +45,7 @@ void    generate_ocp(int *ocp, t_arg_type type, int *shift)
     tmp <<= *shift;
     *ocp |= tmp;
     *shift -= 2;
+    return (EXIT_SUCCESS);
 }
 
 int     ft_trim(char *split, char **s, int arg)
