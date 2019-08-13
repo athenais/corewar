@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:58:03 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/12 15:34:48 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/13 21:15:23 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct			s_inst
 	int					index;
 	int					dir_size;
 	int					ocp;
-	int					param[3];
+	unsigned int		param[3];
 }						t_inst;
 
 typedef struct			s_label
@@ -72,8 +72,8 @@ int			get_instruction(t_file *file, char **wd, char *ptr, char **end);
 int         handle_instruction(t_file *file, char **str, t_inst *inst);
 int         valid_instruction_format(char *str, int type);
 int			is_instruction(char *str, t_op const *op_tab);
-int	        write_to_cor(int byte, int oct, t_file *file);
-char		*ft_itoa_bse(int n, int base, int len);
+int	        write_to_cor(unsigned int byte, int oct, t_file *file);
+char		*ft_itoa_bse(unsigned int n, int base, int len);
 int    		generate_ocp(int *ocp, t_arg_type type, int *shift);
 void    	write_header(t_file *file);
 int    		write_instruction(t_file *file, t_inst inst);

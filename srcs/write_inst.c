@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 14:00:30 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/12 12:40:30 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/13 21:13:26 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int			write_inst_with_ocp(t_file *file, t_inst inst)
 			type = shrt;
 		else
 			return (EXIT_ERROR);
+		printf("%u = param\n", inst.param[arg]);
 		file->hd->prog_size += write_to_cor(inst.param[arg], type, file);
 		shift -= 2;
 	}

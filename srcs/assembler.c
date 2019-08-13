@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:59:08 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/12 15:34:47 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/13 22:12:46 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int						s_to_cor(char *file_name, t_file *file)
 	ft_strncpy(file->cor, file_name, ptr - file_name);
 	file->cor = ft_strnjoinfree(file->cor, ".cor", 4);
 	file->op_tab = g_op_tab;
-	if ((file->fd_cor = open(file->cor, O_CREAT | O_WRONLY, 0666)) == EXIT_ERROR)
+	if ((file->fd_cor = open(file->cor, O_CREAT | O_WRONLY | O_TRUNC, 0666)) == EXIT_ERROR)
 		return (ft_puterror(FILERR));
 	file->label = NULL;
 	write(file->fd_cor, file->hd, sizeof(header_t));

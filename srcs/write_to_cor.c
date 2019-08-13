@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:08 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/11 14:56:22 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/13 21:15:02 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,11 @@ void		write_header(t_file *file)
 	write_string(file, COMMENT_LENGTH);
 }
 
-char		*ft_itoa_bse(int n, int base, int len)
+char		*ft_itoa_bse(unsigned int n, int base, int len)
 {
 	char	*new;
 	char	*base_key;
 
-	if (base == 10)
-		return (ft_itoa(n));
 	base_key = "0123456789abcdef";
 	if (!(new = ft_strnew(len)))
 		return (NULL);
@@ -91,7 +89,7 @@ void		wr_bin(const char *code, t_file *file, uint8_t *buff, int *bit_cnt)
 **	2 complements!
 */
 
-int			write_to_cor(int byte, int oct, t_file *file)
+int			write_to_cor(unsigned int byte, int oct, t_file *file)
 {
 	char	*byte_code;
 	int		bit_cnt;

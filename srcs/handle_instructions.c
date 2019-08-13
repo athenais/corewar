@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:44 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/12 15:34:38 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/13 21:19:48 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,28 @@ int			digit_string(char *s)
 	return (1);
 }
 
-int64_t     atoi_tst(char **string, int shrt)
+int64_t     asm_atoi(char **string, int shrt)
 {
-    int      neg;
-    int64_t  nb;
+    int			neg;		
+    int64_t		nb;
+	uint64_t 	max;
 
-    nb = 0;
+	nb = 0;
+	max = 0;
     neg = (**string == '-') ? 1 : 0;
     if (neg)
         (*string)++;
     while (**string >= '0' && **string <= '9')
 	{
-        if ((shrt && nb > USHRT_MAX) || (!shrt && nb > INT_MAX))
-            nb = 0;
+		max = max * 10 + **string - 48;                    
         nb = nb * 10 + *(*string)++ - 48;
+		if (max > LONG_MAX)
+			return ((neg) ? 0 : UINT_MAX);
+		while ((shrt && nb > USHRT_MAX) || (!shrt && nb > UINT_MAX))
+			nb = (shrt) ? nb - USHRT_MAX - 1 : nb - UINT_MAX - 1;
     }
     if (neg)
-        nb = (shrt) ? USHRT_MAX - (nb - 1) : INT_MAX - (nb - 1);
+        nb = (shrt) ? USHRT_MAX - (nb - 1) : UINT_MAX - (nb - 1);
     return (nb);
 }
 
@@ -88,7 +93,7 @@ int			valid_values(char *str, __unused t_file *file, t_inst *inst, int i)
 	if (!(digit_string(tmp)))
 		return (EXIT_ERROR);
 	shrt = ((direct && inst->dir_size) || !direct) ? 1 : 0;
-	inst->param[i] = atoi_tst(&tmp, shrt);		
+	inst->param[i] = asm_atoi(&tmp, shrt);		
 	return (EXIT_SUCCESS);
 }
 
@@ -129,7 +134,6 @@ int			handle_instruction(t_file *file, char **str, t_inst *inst)
 	while (arg-- && i++ < file->op_tab[inst->index].arg)
 	{
 		*str += ft_trim(split[i], &s, arg);
-		printf("%s = split\n", s);
 		if (check_param(file, s, inst, i) == EXIT_ERROR)
 		{
 			free_split(split);
