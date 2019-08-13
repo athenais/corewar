@@ -129,7 +129,7 @@ int						s_to_cor(char *file_name, t_file *file)
 	ft_strncpy(file->cor, file_name, ptr - file_name);
 	file->cor = ft_strnjoinfree(file->cor, ".cor", 4);
 	file->op_tab = g_op_tab;
-	if ((file->fd_cor = open(file->cor, O_CREAT | O_RDWR, 0666)) == EXIT_ERROR)
+	if ((file->fd_cor = open(file->cor, O_CREAT | O_WRONLY, 0666)) == EXIT_ERROR)
 		return (ft_puterror(FILERR));
 	file->label = NULL;
 	write(file->fd_cor, file->hd, sizeof(header_t));

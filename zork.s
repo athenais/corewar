@@ -2,7 +2,7 @@
 .comment "just a basic living prog"
 
         sti r1    ,%12,%1 #
-		and 3278012121212112121212121212122121212121212,12, r11
+		and -12,12, r11
         sti r2,23,%34
 l2:     sti r3,%0,r14
         sti r1,r3,%34

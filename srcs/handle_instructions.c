@@ -12,6 +12,7 @@
 
 #include <asm_errors.h>
 #include <asm.h>
+#include <limits.h>
 #include <stdio.h>
 
 /*
@@ -35,6 +36,26 @@ int			digit_string(char *s)
 	return (1);
 }
 
+int64_t     atoi_tst(char **string, int shrt)
+{
+    int      neg;
+    int64_t  nb;
+
+    nb = 0;
+    neg = (**string == '-') ? 1 : 0;
+    if (neg)
+        (*string)++;
+    while (**string >= '0' && **string <= '9')
+	{
+        if ((shrt && nb > USHRT_MAX) || (!shrt && nb > INT_MAX))
+            nb = 0;
+        nb = nb * 10 + *(*string)++ - 48;
+    }
+    if (neg)
+        nb = (shrt) ? USHRT_MAX - (nb - 1) : INT_MAX - (nb - 1);
+    return (nb);
+}
+
 int			valid_register(char *str, t_inst *inst, int i)
 {
 	char	*tmp;
@@ -52,8 +73,7 @@ int			valid_register(char *str, t_inst *inst, int i)
 
 int			valid_values(char *str, __unused t_file *file, t_inst *inst, int i)
 {
-	int			nb;
-	int			size;
+	int			shrt;
 	int			direct;
 	char		*tmp;
 //	t_label		*label;
@@ -64,19 +84,11 @@ int			valid_values(char *str, __unused t_file *file, t_inst *inst, int i)
 		inst->param[i] = 0;
 		return (EXIT_SUCCESS);
 	}
-	else
-	{
-		tmp = (direct) ? str + 1 : str;
-		printf("%s = tmp\n", tmp);
-		nb = ft_atoi_parsing(&tmp);
-		printf("%d = nb\n", nb);
-		size = ((direct && inst->dir_size) || !direct) ? 6 : 11;
-		if (!(digit_string(tmp)))
-				return (EXIT_ERROR);
-		inst->param[i] = nb;
-		printf("%d = i\n", inst->param[i]);
-		
-	}
+	tmp = (direct) ? str + 1 : str;
+	if (!(digit_string(tmp)))
+		return (EXIT_ERROR);
+	shrt = ((direct && inst->dir_size) || !direct) ? 1 : 0;
+	inst->param[i] = atoi_tst(&tmp, shrt);		
 	return (EXIT_SUCCESS);
 }
 
