@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:44 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/13 21:19:48 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/14 16:42:41 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,25 +76,45 @@ int			valid_register(char *str, t_inst *inst, int i)
 	return (EXIT_SUCCESS);
 }
 
-int			valid_values(char *str, __unused t_file *file, t_inst *inst, int i)
+int			valid_values(char *str, t_file *file, t_inst *inst, int i)
 {
 	int			shrt;
 	int			direct;
 	char		*tmp;
-//	t_label		*label;
 
 	direct = (*str != DIRECT_CHAR) ? 0 : 1;
-	if (*str == ':' || (direct && *(str + 1) == ':'))
+	tmp = (direct) ? str + 1 : str;
+	if (*tmp == ':')
 	{
+		if (!(lab_list(&tmp, file, inst)))
+			return (EXIT_ERROR);
 		inst->param[i] = 0;
 		return (EXIT_SUCCESS);
 	}
-	tmp = (direct) ? str + 1 : str;
 	if (!(digit_string(tmp)))
 		return (EXIT_ERROR);
 	shrt = ((direct && inst->dir_size) || !direct) ? 1 : 0;
 	inst->param[i] = asm_atoi(&tmp, shrt);		
 	return (EXIT_SUCCESS);
+}
+
+int			inc_size(t_inst *inst, int type)
+{
+	if (type == T_REG)
+	{
+		inst->oct = c;
+		return (1);
+	}
+	else if (type == T_IND)
+	{
+		inst->oct = shrt;
+		return (2);
+	}
+	else
+	{
+		inst->oct = (inst->dir_size) ? shrt : i;
+		return ((inst->dir_size) ? 2 : 4);
+	}	
 }
 
 int			check_param(t_file *file, char *s, t_inst *inst, int i)
@@ -108,13 +128,17 @@ int			check_param(t_file *file, char *s, t_inst *inst, int i)
 		return (ft_puterror(OPFMT));
 	if (*s == 'r')
 	{
-		if (valid_register(s, inst, i) == EXIT_SUCCESS)
+		inc_size(inst, T_REG);
+		if (valid_register(s, inst, i) == EXIT_SUCCESS
+			&& (inst->wr_size += inc_size(inst, T_REG)))
 			return (generate_ocp(&inst->ocp, T_REG, &shift));
 	}
 	else
 	{
 		type = (*s != DIRECT_CHAR) ? T_IND : T_DIR;
-		if (valid_values(s, file, inst, i) == EXIT_SUCCESS)
+		inc_size(inst, type);
+		if (valid_values(s, file, inst, i) == EXIT_SUCCESS
+			&& (inst->wr_size += inc_size(inst, type)))
 			return (generate_ocp(&inst->ocp, type, &shift));
 	}
 	return (ft_puterror(OPFMT));
@@ -146,14 +170,23 @@ int			handle_instruction(t_file *file, char **str, t_inst *inst)
 	return (EXIT_SUCCESS);
 }
 
+void		init_inst(t_inst *inst, t_file *file)
+{
+	inst->ocp = 0;
+	inst->dir_size = file->op_tab[inst->index].dir_size;
+	if (file->op_tab[inst->index].ocp)
+		inst->wr_size = file->hd->prog_size + 2;
+	else
+		inst->wr_size = file->hd->prog_size + 1;
+}
+
 int			get_instruction(t_file *file, char **wd, char *ptr, char **end)
 {
 	t_inst	inst;
 
-	inst.ocp = 0;
 	if ((inst.index = is_instruction(*wd, file->op_tab)) < 0)
 		return (ft_puterror(BADOP));
-	inst.dir_size = file->op_tab[inst.index].dir_size;
+	init_inst(&inst, file);
 	*end = (*end != ptr) ? *end + 1 : *end;
 	if (handle_instruction(file, end, &inst) != EXIT_SUCCESS)
 		return (EXIT_ERROR);

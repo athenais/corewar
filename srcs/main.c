@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:59:23 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/13 22:12:45 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/14 16:05:42 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int		main(int argc, char **argv)
 		{
 			file.fd_cor = 0;
 			if (s_to_cor(argv[argc - 1], &file) == EXIT_SUCCESS)
-			{
+			{		
 				lseek(file.fd_cor, 0, SEEK_SET);
 				write_header(&file);
 				ft_dprintf(1, "writing output to %s\n", file.cor);
@@ -58,5 +58,5 @@ int		main(int argc, char **argv)
 			free((void *)file.cor);
 		}
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }

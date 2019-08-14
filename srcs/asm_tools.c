@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:18 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/12 15:34:39 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/14 15:58:31 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,4 @@ int			is_instruction(char *str, t_op const *op_tab)
 			return (index);
 	}
 	return (EXIT_ERROR);
-}
-
-t_label         *reset_file_read(t_file *file, off_t bytes, __unused char **str, t_label *label)
-{
-  //  free((void *)*str);
-    if (lseek(file->fd, bytes + file->str_len, SEEK_SET) < 0)
-        return (NULL);
-    return (label);
 }

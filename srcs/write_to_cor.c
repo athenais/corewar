@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:08 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/13 21:15:02 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/14 16:42:42 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,6 @@ void		wr_bin(const char *code, t_file *file, uint8_t *buff, int *bit_cnt)
 		code++;
 	}
 }
-
-/*
-**	2 complements!
-*/
 
 int			write_to_cor(unsigned int byte, int oct, t_file *file)
 {

@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:58:03 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/13 21:15:23 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/14 16:48:13 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,6 @@
 #include "../libft/libft.h"
 
 # define ASM_EXT		".s"
-
-enum					e_flag {
-	inactive,
-	active
-};
 
 enum					e_byte {
 	c = 8,
@@ -41,12 +36,24 @@ typedef struct			s_inst
 	int					index;
 	int					dir_size;
 	int					ocp;
+	unsigned int		wr_size;
+	int					oct;
 	unsigned int		param[3];
 }						t_inst;
 
+typedef struct			s_lab
+{
+	char				*name;
+	unsigned int		start;
+	unsigned int		filler;
+	int					size;
+	struct	s_lab		*next;
+	
+}						t_lab;
+
 typedef struct			s_label
 {
-	int					flag;
+	unsigned int		start;
 	char				*name;
 	struct	s_label		*next;
 }						t_label;
@@ -56,10 +63,10 @@ typedef	struct			s_file
 	int					fd;
 	int					fd_cor;
 	off_t				bytes;
-	off_t				str_len;
 	char				*cor;
 	struct 	header_s	*hd;
 	struct	s_label		*label;
+	struct	s_lab		*lab_list;
 	struct	s_op const	*op_tab;
 }						t_file;
 
@@ -79,8 +86,10 @@ void    	write_header(t_file *file);
 int    		write_instruction(t_file *file, t_inst inst);
 void        free_split(char **split);
 int			ft_trim(char *split, char **s, int arg);
-t_label     *reset_file_read(t_file *file, off_t bytes, char **str, t_label *label);
-t_label		*make_label(char **wd, t_file *file);
+void		print_dic(t_label *label);
+int			parse_lab_list(t_file *file);
+t_lab       *lab_list(char **str, t_file *file, t_inst *inst);
+t_label		*make_label(char **wd, t_file *file, unsigned int start);
 t_label		*label_exist(char *str, t_file *file);
 t_label		*parse_file_label(char *str, t_file *file, off_t bytes);
 

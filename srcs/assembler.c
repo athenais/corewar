@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:59:08 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/13 23:20:19 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/14 16:43:18 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int						parse_line(t_file *file, char **buff, char *ptr,
 	{
 		if ((funptr[index])(file, &start, ptr, &end) != EXIT_SUCCESS)
 			return (EXIT_ERROR);
-//		printf("buff = |%s|\n", end);
+		printf("buff = |%s|\n", end);
 		return (parse_line(file, &end, ptr, funptr));
 	}
 	if (*start == '#')
@@ -103,9 +103,6 @@ int						read_file(t_file *file)
 		return (EXIT_ERROR);
 	while ((ret = ft_readline(file->fd, &string, &buffer)) > 0)
 	{
-		file->bytes += ret;
-		file->str_len = (off_t)ft_strlen(string);
-		printf("%s = buffer \n", buffer);
 		if (parse_line(file, &buffer, buffer + (ret - 1), funptr) == EXIT_ERROR)
 		{
 			free((void *)buffer);
@@ -114,6 +111,8 @@ int						read_file(t_file *file)
 		free((void *)buffer);
 	}
 	free((void *)buffer);
+	if (parse_lab_list(file) != EXIT_SUCCESS)
+		return (EXIT_ERROR);
 	return (EXIT_SUCCESS);
 }
 
@@ -133,6 +132,7 @@ int						s_to_cor(char *file_name, t_file *file)
 	if ((file->fd_cor = open(file->cor, O_CREAT | O_WRONLY | O_TRUNC, 0666)) == EXIT_ERROR)
 		return (ft_puterror(FILERR));
 	file->label = NULL;
+	file->lab_list = NULL;
 	write(file->fd_cor, file->hd, sizeof(header_t));
 	return (read_file(file));
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
+#    By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/08/11 15:40:21 by abrunet          ###   ########.fr        #
+#    Updated: 2019/08/14 16:09:19 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRC			=	main			assembler	\
 				check			get_header	\
 				handle_instructions			\
 				handle_label				\
+				write_label					\
 				asm_tools					\
 				write_inst					\
 				write_to_cor			

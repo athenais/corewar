@@ -26,9 +26,10 @@
 # define LCMNT              "Header comment size is too big"
 
 # define OPFMT              "Bad instruction argument"
-# define INVLDCHAR          "Invalid characters"
+# define INVLDCHAR          "Invalid character(s)"
 
 # define ERRLABEL           "Label is unknown"
+# define DUPLAB             "Label already exists"
 
 # define BADPARAM           "argument type for instruction is not valid"
 # define BADOPTION			"Illegal option -- "
