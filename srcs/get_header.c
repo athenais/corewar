@@ -6,16 +6,12 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:35 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/11 13:57:50 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/15 16:41:49 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <asm.h>
 #include <asm_errors.h>
-#include <stdio.h>
-#include <unistd.h>
-
-//watch out for end + 1 (add ptr);
 
 int     get_champ_name(t_file *file, __unused char **wd, __unused char *ptr, char **end)
 {

@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:58:03 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/14 16:48:13 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/15 16:36:17 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,24 @@ typedef	struct			s_file
 	struct	s_op const	*op_tab;
 }						t_file;
 
+typedef struct		s_op
+{
+	char			*name;
+	int				arg;
+	t_arg_type		type[3];
+	int				op_code;
+	int				ocp;
+	int				dir_size;
+}					t_op;
+
 int			check_extension(char *str);
+int			read_file(t_file *file);
 int			s_to_cor(char *file_name, t_file *file);
 int	     	get_champ_name(t_file *file, char **wd, char *ptr, char **end);
 int		    get_comment(t_file *file, char **wd, char *ptr, char **end);
 int		    get_label(t_file *file, char **wd, char *ptr, char **end);
 int			get_instruction(t_file *file, char **wd, char *ptr, char **end);
+void		init_inst(t_inst *inst, t_file *file);
 int         handle_instruction(t_file *file, char **str, t_inst *inst);
 int         valid_instruction_format(char *str, int type);
 int			is_instruction(char *str, t_op const *op_tab);
@@ -86,11 +98,11 @@ void    	write_header(t_file *file);
 int    		write_instruction(t_file *file, t_inst inst);
 void        free_split(char **split);
 int			ft_trim(char *split, char **s, int arg);
-void		print_dic(t_label *label);
 int			parse_lab_list(t_file *file);
+int			inc_size(t_inst *inst, int type);
+int64_t     asm_atoi(char **string, int shrt);
 t_lab       *lab_list(char **str, t_file *file, t_inst *inst);
 t_label		*make_label(char **wd, t_file *file, unsigned int start);
-t_label		*label_exist(char *str, t_file *file);
 t_label		*parse_file_label(char *str, t_file *file, off_t bytes);
 
 #endif

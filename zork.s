@@ -6,7 +6,7 @@ l3:     sti r1,r3,%34
 live:   live %:l1
         live %:l3
         zjmp %:l3
-        zjmp %:l4
+        zjmp %:l2
         zjmp %:l1
         zjmp %:l5
         zjmp %:l6

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 18:36:33 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/03 14:18:08 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/08/15 16:01:03 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,6 @@ int					ft_iswhitespace(char c);
 int 				get_next_word(char const *str, char **start, char **end);
 char			    **ft_strsplit(char const *s, char c);
 char	            *ft_itoa_base(int n, int base);
+void				ft_dprintf(int fd, char const *fmt, ...);
+int			        digit_string(char *s);
 #endif

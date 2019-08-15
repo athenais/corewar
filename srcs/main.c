@@ -6,34 +6,13 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:59:23 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/14 16:05:42 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/15 16:40:46 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <asm_errors.h>
-#include <asm.h>
-#include <stdarg.h>
 #include <unistd.h>
-
-void					ft_dprintf(int fd, char const *fmt, ...)
-{
-	va_list				list;
-	char				*string;
-
-	va_start(list, fmt);
-	while (*fmt != 0)
-	{
-		if (*fmt == '%' && *(fmt + 1) == 's')
-		{
-			if ((string = va_arg(list, char *)) != NULL)
-				write(fd, string, ft_strlen(string));
-			fmt += 2;
-		}
-		else
-			write(fd, fmt++, 1);
-	}
-	va_end(list);
-}
+#include <asm.h>
 
 int		main(int argc, char **argv)
 {
@@ -54,6 +33,8 @@ int		main(int argc, char **argv)
 			}
 			if (file.fd_cor)
 				close(file.fd_cor);
+			if (file.fd != -1)
+				close(file.fd);
 			free((void *)file.hd);
 			free((void *)file.cor);
 		}

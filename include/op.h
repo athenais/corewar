@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2019/08/14 16:58:48 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/15 16:15:07 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,3 @@ typedef struct		header_s
   unsigned int		prog_size;
   char				comment[COMMENT_LENGTH + 1];
 }					header_t;
-
-typedef struct		s_op
-{
-	char			*name;
-	int				arg;
-	t_arg_type		type[3];
-	int				op_code;
-	int				ocp;
-	int				dir_size;
-}					t_op;
-

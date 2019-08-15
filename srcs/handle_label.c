@@ -6,13 +6,12 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:58:14 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/14 15:54:20 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/15 15:38:16 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <asm_errors.h>
 #include <asm.h>
-#include <stdio.h>
 
 t_label     *new_label(char *word, unsigned int start)
 {
@@ -34,7 +33,6 @@ t_lab   *new_lab(char *word, unsigned int start, unsigned int filler, int oct)
      t_lab  *new;
      int    size;
 
-    printf("%s=lab, %u=start, %u=place, %d=size\n", word, start, filler, oct);
     size = ft_strlen(word);
     new = malloc(sizeof(t_lab));
     if (!(new->name = malloc(size)))
@@ -45,19 +43,6 @@ t_lab   *new_lab(char *word, unsigned int start, unsigned int filler, int oct)
     new->size = oct;
     new->next = NULL;
     return (new);
-}
-
-void    print_dic(t_label *label)
-{
-    t_label *tmp;
-
-    tmp = label;
-    while (tmp)
-    {
-        printf("|%s| \n", tmp->name);
-        tmp = tmp->next;
-    }
-    printf("\n");
 }
 
 t_lab       *lab_list(char **str, t_file *file, t_inst *inst)
@@ -77,23 +62,6 @@ t_lab       *lab_list(char **str, t_file *file, t_inst *inst)
         tmp->next = new;
     }
     return (new);
-}
-
-t_label     *label_exist(char *str, t_file *file)
-{
-    t_label     *tmp;
- 
-    tmp = file->label;
-    while (tmp)
-    {
-        if (ft_strlen(str) == ft_strlen(tmp->name))
-        {
-            if (ft_strcmp(tmp->name, str + 1) == 58)
-                return (tmp);
-        }
-        tmp = tmp->next;
-    }
-    return (NULL);
 }
 
 t_label     *make_label(char **wd, t_file *file, unsigned int start)

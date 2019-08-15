@@ -6,12 +6,10 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:08 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/14 16:42:42 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/15 16:27:20 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
 #include <unistd.h>
 #include <asm.h>
 
@@ -42,28 +40,6 @@ void		write_header(t_file *file)
 	write_to_cor(file->hd->prog_size, i, file);
 	write_string(file, COMMENT_LENGTH);
 }
-
-char		*ft_itoa_bse(unsigned int n, int base, int len)
-{
-	char	*new;
-	char	*base_key;
-
-	base_key = "0123456789abcdef";
-	if (!(new = ft_strnew(len)))
-		return (NULL);
-	len--;
-	while (len >= 0)
-	{
-		new[len] = base_key[n % base];
-		n /= base;
-		len--;
-	}
-	return (new);
-}
-
-/*
-**	add dumping!
-*/
 
 void		wr_bin(const char *code, t_file *file, uint8_t *buff, int *bit_cnt)
 {

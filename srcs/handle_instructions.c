@@ -6,60 +6,13 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:44 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/14 16:42:41 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/15 16:36:16 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <asm_errors.h>
-#include <asm.h>
 #include <limits.h>
-#include <stdio.h>
-
-/*
-** make it work for label vv
-**check for 32 bits
-*/
-
-int			digit_string(char *s)
-{
-	int		i;
-
-	i = -1;
-	while (s[++i])
-	{
-		if (!(ft_isdigit(s[i])))
-		{
-			if (s[i] != '-' && i != 0)
-				return (0);
-		}
-	}
-	return (1);
-}
-
-int64_t     asm_atoi(char **string, int shrt)
-{
-    int			neg;		
-    int64_t		nb;
-	uint64_t 	max;
-
-	nb = 0;
-	max = 0;
-    neg = (**string == '-') ? 1 : 0;
-    if (neg)
-        (*string)++;
-    while (**string >= '0' && **string <= '9')
-	{
-		max = max * 10 + **string - 48;                    
-        nb = nb * 10 + *(*string)++ - 48;
-		if (max > LONG_MAX)
-			return ((neg) ? 0 : UINT_MAX);
-		while ((shrt && nb > USHRT_MAX) || (!shrt && nb > UINT_MAX))
-			nb = (shrt) ? nb - USHRT_MAX - 1 : nb - UINT_MAX - 1;
-    }
-    if (neg)
-        nb = (shrt) ? USHRT_MAX - (nb - 1) : UINT_MAX - (nb - 1);
-    return (nb);
-}
+#include <asm.h>
 
 int			valid_register(char *str, t_inst *inst, int i)
 {
@@ -96,25 +49,6 @@ int			valid_values(char *str, t_file *file, t_inst *inst, int i)
 	shrt = ((direct && inst->dir_size) || !direct) ? 1 : 0;
 	inst->param[i] = asm_atoi(&tmp, shrt);		
 	return (EXIT_SUCCESS);
-}
-
-int			inc_size(t_inst *inst, int type)
-{
-	if (type == T_REG)
-	{
-		inst->oct = c;
-		return (1);
-	}
-	else if (type == T_IND)
-	{
-		inst->oct = shrt;
-		return (2);
-	}
-	else
-	{
-		inst->oct = (inst->dir_size) ? shrt : i;
-		return ((inst->dir_size) ? 2 : 4);
-	}	
 }
 
 int			check_param(t_file *file, char *s, t_inst *inst, int i)
@@ -170,16 +104,6 @@ int			handle_instruction(t_file *file, char **str, t_inst *inst)
 	return (EXIT_SUCCESS);
 }
 
-void		init_inst(t_inst *inst, t_file *file)
-{
-	inst->ocp = 0;
-	inst->dir_size = file->op_tab[inst->index].dir_size;
-	if (file->op_tab[inst->index].ocp)
-		inst->wr_size = file->hd->prog_size + 2;
-	else
-		inst->wr_size = file->hd->prog_size + 1;
-}
-
 int			get_instruction(t_file *file, char **wd, char *ptr, char **end)
 {
 	t_inst	inst;
@@ -192,5 +116,7 @@ int			get_instruction(t_file *file, char **wd, char *ptr, char **end)
 		return (EXIT_ERROR);
 	if (write_instruction(file, inst) == EXIT_ERROR)
 		return (EXIT_ERROR);
+	if (file->hd->prog_size > UCHAR_MAX)
+		return (ft_puterror(CHAMPSIZERR));
 	return (EXIT_SUCCESS);
 }

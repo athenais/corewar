@@ -6,14 +6,12 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:18 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/14 15:58:31 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/15 16:34:55 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <asm_errors.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <limits.h>
 #include <asm.h>
 
 int         valid_instruction_format(char *str, int type)
@@ -37,24 +35,12 @@ int         valid_instruction_format(char *str, int type)
     return (EXIT_SUCCESS);
 }
 
-int    generate_ocp(int *ocp, t_arg_type type, int *shift)
-{
-    int     tmp;
-
-    tmp = (type == T_IND) ? 3 : type;
-    tmp <<= *shift;
-    *ocp |= tmp;
-    *shift -= 2;
-    return (EXIT_SUCCESS);
-}
-
 int     ft_trim(char *split, char **s, int arg)
 {
     char    *str;
     int     size;
 	int		word_size;
 
-	//watch out '#'
     str = split;
     while (*str && ft_iswhitespace(*str))
         str++;
@@ -75,29 +61,56 @@ int     ft_trim(char *split, char **s, int arg)
     return (size);        
 }
 
-void		free_split(char **split)
+int64_t     asm_atoi(char **string, int shrt)
 {
-	int	i;
+    int			neg;		
+    int64_t		nb;
+	uint64_t 	max;
 
-	i = 0;
-	while (split[i])
+	nb = 0;
+	max = 0;
+    neg = (**string == '-') ? 1 : 0;
+    if (neg)
+        (*string)++;
+    while (**string >= '0' && **string <= '9')
 	{
-		free(split[i]);
-		i++;
-	}
-	free(split);
-	split = NULL;
+		max = max * 10 + **string - 48;                    
+        nb = nb * 10 + *(*string)++ - 48;
+		if (max > LONG_MAX)
+			return ((neg) ? 0 : UINT_MAX);
+		while ((shrt && nb > USHRT_MAX) || (!shrt && nb > UINT_MAX))
+			nb = (shrt) ? nb - USHRT_MAX - 1 : nb - UINT_MAX - 1;
+    }
+    if (neg)
+        nb = (shrt) ? USHRT_MAX - (nb - 1) : UINT_MAX - (nb - 1);
+    return (nb);
 }
 
-int			is_instruction(char *str, t_op const *op_tab)
+int			inc_size(t_inst *inst, int type)
 {
-	int		index;
-
-	index = -1;
-	while (op_tab[++index].name)
+	if (type == T_REG)
 	{
-		if (!(ft_strcmp(str, op_tab[index].name)))
-			return (index);
+		inst->oct = c;
+		return (1);
 	}
-	return (EXIT_ERROR);
+	else if (type == T_IND)
+	{
+		inst->oct = shrt;
+		return (2);
+	}
+	else
+	{
+		inst->oct = (inst->dir_size) ? shrt : i;
+		return ((inst->dir_size) ? 2 : 4);
+	}	
+}
+
+void		init_inst(t_inst *inst, t_file *file)
+{
+	inst->ocp = 0;
+	inst->dir_size = file->op_tab[inst->index].dir_size;
+	if (file->op_tab[inst->index].ocp)
+		inst->wr_size = file->hd->prog_size + 2;
+	else
+		inst->wr_size = file->hd->prog_size + 1;
 }

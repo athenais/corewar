@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   ft_dprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/11 13:58:49 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/15 16:41:48 by abrunet          ###   ########.fr       */
+/*   Created: 2019/08/15 15:53:40 by abrunet           #+#    #+#             */
+/*   Updated: 2019/08/15 15:56:23 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <asm.h>
-#include <asm_errors.h>
+#include <stdarg.h>
+#include "libft.h"
+#include <unistd.h>
 
-void				ft_print_asm_usage(void)
+void					ft_dprintf(int fd, char const *fmt, ...)
 {
-	ft_dprintf(1, "usage: ./asm <file.s>\n");
-}
+	va_list				list;
+	char				*string;
 
-int					ft_puterror(char const *string)
-{
-	if (string != NULL)
-		ft_dprintf(1, "asm: %s\n", string);
-	else
-		ft_dprintf(1, "%s\n", HELPMSG);
-	return (EXIT_ERROR);
+	va_start(list, fmt);
+	while (*fmt != 0)
+	{
+		if (*fmt == '%' && *(fmt + 1) == 's')
+		{
+			if ((string = va_arg(list, char *)) != NULL)
+				write(fd, string, ft_strlen(string));
+			fmt += 2;
+		}
+		else
+			write(fd, fmt++, 1);
+	}
+	va_end(list);
 }

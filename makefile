@@ -6,7 +6,7 @@
 #    By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/08/14 16:09:19 by abrunet          ###   ########.fr        #
+#    Updated: 2019/08/15 16:21:40 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,12 +39,15 @@ CLIBFT		=	-L $(LIBDIR) -lft
 SRC			=	main			assembler	\
 				errors						\
 				check			get_header	\
+				read_file					\
 				handle_instructions			\
 				handle_label				\
 				write_label					\
 				asm_tools					\
 				write_inst					\
-				write_to_cor			
+				write_to_cor				\
+				write_tools					\
+				free		
 
 LIBFT		=	$(LIBDIR)/libft.a
 

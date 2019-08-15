@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   digit_string.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/11 13:58:49 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/15 16:41:48 by abrunet          ###   ########.fr       */
+/*   Created: 2019/08/15 15:58:16 by abrunet           #+#    #+#             */
+/*   Updated: 2019/08/15 16:01:10 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <asm.h>
-#include <asm_errors.h>
+#include "libft.h"
 
-void				ft_print_asm_usage(void)
+int			digit_string(char *s)
 {
-	ft_dprintf(1, "usage: ./asm <file.s>\n");
-}
+	int		i;
 
-int					ft_puterror(char const *string)
-{
-	if (string != NULL)
-		ft_dprintf(1, "asm: %s\n", string);
-	else
-		ft_dprintf(1, "%s\n", HELPMSG);
-	return (EXIT_ERROR);
+	i = -1;
+	while (s[++i])
+	{
+		if (!(ft_isdigit(s[i])))
+		{
+			if (s[i] != '-' && i != 0)
+				return (0);
+		}
+	}
+	return (1);
 }

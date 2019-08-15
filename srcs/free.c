@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/11 13:58:49 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/15 16:41:48 by abrunet          ###   ########.fr       */
+/*   Created: 2019/08/15 16:22:13 by abrunet           #+#    #+#             */
+/*   Updated: 2019/08/15 16:36:34 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <asm.h>
-#include <asm_errors.h>
 
-void				ft_print_asm_usage(void)
+void		free_split(char **split)
 {
-	ft_dprintf(1, "usage: ./asm <file.s>\n");
-}
+	int	i;
 
-int					ft_puterror(char const *string)
-{
-	if (string != NULL)
-		ft_dprintf(1, "asm: %s\n", string);
-	else
-		ft_dprintf(1, "%s\n", HELPMSG);
-	return (EXIT_ERROR);
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+	split = NULL;
 }

@@ -6,14 +6,12 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 14:00:30 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/14 15:20:27 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/15 16:38:05 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <asm_errors.h>
 #include <asm.h>
-#include <stdio.h>
-
 
 int			valid_param(t_file *file, int index, int param, int arg)
 {
@@ -86,6 +84,5 @@ int			write_instruction(t_file *file, t_inst inst)
 		type = (file->op_tab[inst.index].dir_size) ? shrt : i;
 		file->hd->prog_size += write_to_cor(inst.param[0], type, file);
 	}
-	printf("%d = prog_size\n", file->hd->prog_size);
 	return (EXIT_SUCCESS);
 }
