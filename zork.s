@@ -1,7 +1,7 @@
 .name "zork"
 .comment "just a basic living prog"
 l1:     sti r1,%12,%1
-l3:     sti r1,r3,%34
+l3:     sti r1,r3,%34g
         zjmp %:l1
 live:   live %:l1
         live %:l3

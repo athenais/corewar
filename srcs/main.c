@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:59:23 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/15 16:55:40 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/15 19:07:26 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int		main(int argc, char **argv)
 				write_header(&file);
 				ft_dprintf(1, "writing output to %s\n", file.cor);
 			}
+			free_label(file.label, file.lab_list);
 			if (file.fd_cor)
 				close(file.fd_cor);
 			if (file.fd != -1)

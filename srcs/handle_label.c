@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:58:14 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/15 17:03:57 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/15 19:23:52 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_label		*new_label(char *word, unsigned int start)
 
 	size = ft_strlen(word);
 	new = malloc(sizeof(t_label));
-	if (!(new->name = malloc(size)))
+	if (!(new->name = malloc(size + 1)))
 		return (NULL);
 	ft_strcpy(new->name, word);
 	new->start = start;
@@ -35,7 +35,7 @@ t_lab		*new_lab(char *wd, unsigned int strt, unsigned int fill, int oct)
 
 	size = ft_strlen(wd);
 	new = malloc(sizeof(t_lab));
-	if (!(new->name = malloc(size)))
+	if (!(new->name = malloc(size + 1)))
 		return (NULL);
 	ft_strcpy(new->name, wd);
 	new->start = strt;

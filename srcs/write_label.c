@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:59:37 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/15 18:53:19 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/15 19:05:46 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,12 @@ int			parse_lab_list(t_file *file)
 	t_label	*label;
 
 	if (!(file->lab_list))
-	{
 		return (EXIT_SUCCESS);
-	}
 	tmp = file->lab_list;
 	while (tmp)
 	{
 		if (!(label = label_exist(tmp->name, file)))
-		{
 			return (ft_puterror(ERRLABEL));
-		}
 		write_label(file, tmp, label);
 		tmp = tmp->next;
 	}

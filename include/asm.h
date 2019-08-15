@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:58:03 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/15 18:54:03 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/15 19:10:42 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int						generate_ocp(int *ocp, t_arg_type type, int *shift);
 void					write_header(t_file *file);
 int						write_instruction(t_file *file, t_inst inst);
 void					free_split(char **split);
+void					free_label(t_label *label, t_lab *lab);
 int						ft_trim(char *split, char **s, int arg);
 int						parse_lab_list(t_file *file);
 int						inc_size(t_inst *inst, int type);
