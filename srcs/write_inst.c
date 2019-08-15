@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 14:00:30 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/15 16:38:05 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/15 17:04:34 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int			valid_param(t_file *file, int index, int param, int arg)
 	sum3 = T_IND + T_DIR;
 	sum4 = T_REG + T_DIR;
 	type = file->op_tab[index].type[arg];
-	param = (param == IND_CODE) ? T_IND : param ;
+	param = (param == IND_CODE) ? T_IND : param;
 	if (type == param || type == sum1)
 		return (EXIT_SUCCESS);
 	if (param == T_IND && type < param)

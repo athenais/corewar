@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read_file.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abrunet <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/08/15 17:08:12 by abrunet           #+#    #+#             */
+/*   Updated: 2019/08/15 17:08:50 by abrunet          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <asm.h>
 #include <asm_errors.h>
 
@@ -14,7 +26,7 @@ int			is_instruction(char *str, t_op const *op_tab)
 	return (EXIT_ERROR);
 }
 
-uint8_t					get_funptr_index(char *start, t_file *file, int size)
+uint8_t		get_funptr_index(char *start, t_file *file, int size)
 {
 	static	int name;
 	static	int cmnt;
@@ -42,7 +54,7 @@ uint8_t					get_funptr_index(char *start, t_file *file, int size)
 	return (0);
 }
 
-int						parse_line(t_file *file, char **buff, char *ptr,
+int			parse_line(t_file *file, char **buff, char *ptr,
 	int (**funptr)(t_file *, char **, char *, char **))
 {
 	static	uint8_t		index;
@@ -62,7 +74,7 @@ int						parse_line(t_file *file, char **buff, char *ptr,
 	return (ft_puterror(INVLDCHAR));
 }
 
-int						read_file(t_file *file)
+int			read_file(t_file *file)
 {
 	char				*buffer;
 	static char			*string;

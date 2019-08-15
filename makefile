@@ -6,7 +6,7 @@
 #    By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/08/15 16:21:40 by abrunet          ###   ########.fr        #
+#    Updated: 2019/08/15 18:34:52 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,7 @@ $(LIBFT)		: $(LIBDIR)/libft.h
 	make -C $(LIBDIR)
 	echo "$(GREEN)DONE$(STD)" > $(STDOUT)
 
-$(OBJDIR)/%.o	: $(SRCDIR)/%.c $(HDR)/*.h
+$(OBJDIR)/%.o	: $(SRCDIR)/%.c $(HDR)/*.h $(LIBFT)
 	@mkdir -p $(OBJDIR)
 	@echo " > Compiling $<..." > $(STDOUT)
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@

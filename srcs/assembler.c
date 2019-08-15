@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:59:08 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/15 16:42:30 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/15 18:52:47 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void					init_file(t_file *file, int fd, char *file_name)
 	char	*ptr;
 
 	file->fd = fd;
-	file->hd = malloc(sizeof(header_t));
-	ft_memset(file->hd, '\0', sizeof(header_t));
+	file->hd = malloc(sizeof(t_header));
+	ft_memset(file->hd, '\0', sizeof(t_header));
 	ptr = ft_strrchr(file_name, '.');
 	file->cor = ft_strnew(ptr - file_name + 4);
 	ft_strncpy(file->cor, file_name, ptr - file_name);
@@ -60,8 +60,9 @@ int						s_to_cor(char *file_name, t_file *file)
 	if ((fd = open(file_name, O_RDONLY)) == EXIT_ERROR)
 		return (ft_puterror(FILERR));
 	init_file(file, fd, file_name);
-	if ((file->fd_cor = open(file->cor, O_CREAT | O_WRONLY | O_TRUNC, 0666)) == EXIT_ERROR)
+	if ((file->fd_cor = open(file->cor, O_CREAT | O_WRONLY
+					| O_TRUNC, 0666)) == EXIT_ERROR)
 		return (ft_puterror(FILERR));
-	write(file->fd_cor, file->hd, sizeof(header_t));
+	write(file->fd_cor, file->hd, sizeof(t_header));
 	return (read_file(file));
 }

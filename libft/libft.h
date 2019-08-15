@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 18:36:33 by thflahau          #+#    #+#             */
-/*   Updated: 2019/08/15 16:01:03 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/15 18:38:41 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,14 @@
 
 # define BUFF_SIZE	2048
 
-int					ft_printf(char const *arg, ...);
-int					ft_isaligned(void *p);
-int					ft_isblank(int c);
-int					ft_isdigit(int c);
-int					ft_is32bits(int64_t nb);
-int					ft_isprintable(int c);
 int					ft_strcmp(char const *s1, char const *s2);
+int					ft_isdigit(int c);
+void				ft_fast_bzero(void *st, size_t size);
+int					ft_printable(int c);
 int					ft_strncmp(char const *s1, char const *s2, size_t n);
 void				ft_memset(void *s, int c, size_t n);
 void				ft_putchar(int c);
 void				ft_memcpy(void *dst, void const *src, size_t n);
-void				ft_putnbr_light(uint16_t nb);
-void				ft_fast_bzero(void *ptr, size_t size) __attribute__((hot));
 void				ft_putnstr(char const *s, uint8_t n);
 void				ft_putstr_endl(char const *s);
 void				ft_putstr_endl_free(char const *s);
@@ -43,24 +38,17 @@ char				*ft_strcat(char *s1, char const *s2);
 char				*ft_strdup(char const *s);
 char				*ft_strsub(char const *s, size_t i, size_t n);
 char				*ft_strnjoinfree(char const *s, char const *p, size_t n);
-int             	ft_readline(int fd, char **string, char **line);
+int					ft_readline(int fd, char **string, char **line);
 int64_t				ft_atoi_parsing(char **string);
-int64_t				ft_min(int64_t a, int64_t b);
-uint8_t				ft_variadic_freeing(unsigned int nb, ...);
-uint16_t			ft_u32len(uint32_t nb);
-uint32_t			ft_word_count(char const *s);
-uint64_t			ft_abs(int64_t nb);
 void				ft_putstr_fd(char const *s, int fd);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putendl_fd(char const *s, int fd);
-char				*ft_itoa(int n);
-void				ft_bzero(void *s, size_t n);
 char				*ft_strncpy(char *dst, char const *src, size_t len);
 char				*ft_strcpy(char *dst, char const *src);
 int					ft_iswhitespace(char c);
-int 				get_next_word(char const *str, char **start, char **end);
-char			    **ft_strsplit(char const *s, char c);
-char	            *ft_itoa_base(int n, int base);
+int					get_next_word(char const *str, char **start, char **end);
+char				**ft_strsplit(char const *s, char c);
 void				ft_dprintf(int fd, char const *fmt, ...);
-int			        digit_string(char *s);
+int					digit_string(char *s);
+
 #endif

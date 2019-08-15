@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:44 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/15 16:36:16 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/08/15 18:24:34 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int			valid_register(char *str, t_inst *inst, int i)
 	int64_t	nb;
 
 	tmp = str + 1;
-	
 	if (ft_strlen(tmp) > 2 || !(digit_string(tmp)))
 		return (EXIT_ERROR);
 	if ((nb = ft_atoi_parsing(&tmp)) < 0 || nb > 99)
@@ -47,7 +46,7 @@ int			valid_values(char *str, t_file *file, t_inst *inst, int i)
 	if (!(digit_string(tmp)))
 		return (EXIT_ERROR);
 	shrt = ((direct && inst->dir_size) || !direct) ? 1 : 0;
-	inst->param[i] = asm_atoi(&tmp, shrt);		
+	inst->param[i] = asm_atoi(&tmp, shrt);
 	return (EXIT_SUCCESS);
 }
 
