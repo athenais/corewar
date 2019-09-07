@@ -6,13 +6,14 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:59:23 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/15 19:07:26 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/07 15:18:47 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <asm_errors.h>
 #include <unistd.h>
 #include <asm.h>
+#include <stdio.h>
 
 int		main(int argc, char **argv)
 {
@@ -31,6 +32,8 @@ int		main(int argc, char **argv)
 				write_header(&file);
 				ft_dprintf(1, "writing output to %s\n", file.cor);
 			}
+			else 
+				return (EXIT_ERROR);
 			free_label(file.label, file.lab_list);
 			if (file.fd_cor)
 				close(file.fd_cor);

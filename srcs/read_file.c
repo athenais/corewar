@@ -53,7 +53,7 @@ uint8_t		get_funptr_index(char *start, t_file *file, int size)
 	}
 	return (0);
 }
-
+#include <stdio.h>
 int			parse_line(t_file *file, char **buff, char *ptr,
 	int (**funptr)(t_file *, char **, char *, char **))
 {
@@ -69,7 +69,7 @@ int			parse_line(t_file *file, char **buff, char *ptr,
 			return (EXIT_ERROR);
 		return (parse_line(file, &end, ptr, funptr));
 	}
-	if (*start == '#')
+	if (*start == '#' || *start == ';')
 		return (EXIT_SUCCESS);
 	return (ft_puterror(INVLDCHAR));
 }
@@ -81,6 +81,7 @@ int			read_file(t_file *file)
 	int					ret;
 	int					(*funptr[5])(t_file *, char **, char *, char **);
 
+	file->line = 1;
 	funptr[1] = &get_champ_name;
 	funptr[2] = &get_comment;
 	funptr[3] = &get_label;
@@ -92,9 +93,11 @@ int			read_file(t_file *file)
 	{
 		if (parse_line(file, &buffer, buffer + (ret - 1), funptr) == EXIT_ERROR)
 		{
+	//		printf("%d = line\n", file->line++);
 			free((void *)buffer);
 			return (EXIT_ERROR);
 		}
+		file->line++;
 		free((void *)buffer);
 	}
 	free((void *)buffer);

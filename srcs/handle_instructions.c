@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:44 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/15 18:24:34 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/07 15:22:30 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,29 @@ int			check_param(t_file *file, char *s, t_inst *inst, int i)
 	}
 	return (ft_puterror(OPFMT));
 }
+#include <stdio.h>
+int			check_arg_num(char **split, int arg)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	while (split[i])
+	{
+		str = split[i];
+//		printf("%s = str\n", str);
+		while (*str++)
+		{
+			if (*str == '#')
+			{
+//				printf("arg = %d i = %d\n", arg, i);
+				return ((arg != i + 1) ? EXIT_ERROR : EXIT_SUCCESS);
+			}
+		}
+		i++;
+	}
+	return ((arg != i) ? EXIT_ERROR : EXIT_SUCCESS);
+}
 
 int			handle_instruction(t_file *file, char **str, t_inst *inst)
 {
@@ -87,6 +110,8 @@ int			handle_instruction(t_file *file, char **str, t_inst *inst)
 	s = NULL;
 	arg = file->op_tab[inst->index].arg;
 	split = ft_strsplit(*str, ',');
+	if (check_arg_num(split, arg) == EXIT_ERROR)
+		return (ft_puterror(BADOPARG));
 	i = -1;
 	while (arg-- && i++ < file->op_tab[inst->index].arg)
 	{
@@ -102,7 +127,7 @@ int			handle_instruction(t_file *file, char **str, t_inst *inst)
 	free_split(split);
 	return (EXIT_SUCCESS);
 }
-
+#include <stdio.h>
 int			get_instruction(t_file *file, char **wd, char *ptr, char **end)
 {
 	t_inst	inst;
@@ -113,9 +138,8 @@ int			get_instruction(t_file *file, char **wd, char *ptr, char **end)
 	*end = (*end != ptr) ? *end + 1 : *end;
 	if (handle_instruction(file, end, &inst) != EXIT_SUCCESS)
 		return (EXIT_ERROR);
+//	printf("check\n");
 	if (write_instruction(file, inst) == EXIT_ERROR)
 		return (EXIT_ERROR);
-	if (file->hd->prog_size > UCHAR_MAX)
-		return (ft_puterror(CHAMPSIZERR));
 	return (EXIT_SUCCESS);
 }

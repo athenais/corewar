@@ -12,7 +12,7 @@
 
 #include <asm.h>
 #include <asm_errors.h>
-
+#include <stdio.h>
 int		get_champ_name(t_file *file, char **wd, char *ptr, char **end)
 {
 	char	*p;
@@ -22,6 +22,7 @@ int		get_champ_name(t_file *file, char **wd, char *ptr, char **end)
 	*end = (*end != ptr) ? *end + 1 : *end;
 	while ((ft_iswhitespace(**end)))
 		(*end)++;
+//	printf("end = %s\n", *end);
 	if (**end == '"')
 	{
 		if ((p = ft_strchr(*end + 1, '"')))
@@ -33,7 +34,7 @@ int		get_champ_name(t_file *file, char **wd, char *ptr, char **end)
 			return (EXIT_SUCCESS);
 		}
 	}
-	return (EXIT_ERROR);
+	return (ft_puterror(BADNAME));
 }
 
 int		get_comment(t_file *file, char **wd, char *ptr, char **end)
@@ -56,5 +57,5 @@ int		get_comment(t_file *file, char **wd, char *ptr, char **end)
 			return (EXIT_SUCCESS);
 		}
 	}
-	return (EXIT_ERROR);
+	return (ft_puterror(BADCMNT));
 }

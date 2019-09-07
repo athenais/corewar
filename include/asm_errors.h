@@ -37,6 +37,10 @@
 # define LNAME              "Champion name size is too big"
 # define LCMNT              "Header comment size is too big"
 
+# define BADNAME            "name format is not valid"
+# define BADCMNT            "comment format is not valid"
+
+# define BADOPARG           "Wrong number of arguments for this instruction"
 # define OPFMT              "Bad instruction argument"
 # define INVLDCHAR          "Invalid character(s)"
 
