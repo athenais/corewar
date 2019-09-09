@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:58:14 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/07 15:21:00 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/09 23:13:18 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,8 @@ t_label		*new_label(char *word, unsigned int start)
 	char	*s;
 
 	s = word;
-	while (*s != ':')
-		s++;
-	*s = '\0';
 	size = ft_strlen(word);
+	s[size - 1] = '\0';
 	new = malloc(sizeof(t_label));
 	if (!(new->name = malloc(size + 1)))
 		return (NULL);

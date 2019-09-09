@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:59:37 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/09 19:35:14 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/09 23:14:06 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 t_label		*label_exist(char *str, t_file *file)
 {
 	t_label	*tmp;
-	int 	nb;
+	int		nb;
 
 	tmp = file->label;
 	while (tmp)
@@ -32,6 +32,7 @@ t_label		*label_exist(char *str, t_file *file)
 	}
 	return (NULL);
 }
+
 int			write_label(t_file *file, t_lab *lab, t_label *label)
 {
 	unsigned int	diff;
