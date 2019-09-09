@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:08 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/15 16:27:20 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/09 19:43:06 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,14 @@ void		write_header(t_file *file)
 	write_string(file, COMMENT_LENGTH);
 }
 
-int		write_to_cor_file(t_file *file)
+int			write_to_cor_file(t_file *file)
 {
 	unsigned int	i;
 
 	i = -1;
 	if ((file->fd_cor = open(file->cor, O_CREAT | O_WRONLY
 		| O_TRUNC, 0666)) == EXIT_ERROR)
-				return (ft_puterror(FILERR));
+		return (ft_puterror(FILERR));
 	write(file->fd_cor, file->hd, sizeof(t_header));
 	while (++i < file->hd->prog_size)
 		ft_putchar_fd(file->wr_buff[i], file->fd_cor);
@@ -61,10 +61,10 @@ int		write_to_cor_file(t_file *file)
 	return (EXIT_SUCCESS);
 }
 
-int		wr_bin(const char *code, t_file *file, uint8_t *buff, int *bit_cnt)
+int			wr_bin(const char *code, t_file *file, uint8_t *buff, int *bit_cnt)
 {
-	char	c;
-	int		bit;
+	char		c;
+	int			bit;
 	static	int size;
 
 	while ((c = *code))
@@ -72,7 +72,7 @@ int		wr_bin(const char *code, t_file *file, uint8_t *buff, int *bit_cnt)
 		bit = c - '0';
 		*buff |= bit << (7 - *bit_cnt);
 		++(*bit_cnt);
-		if (*bit_cnt == 8)		
+		if (*bit_cnt == 8)
 		{
 			if (!file->wr)
 				file->wr_buff[size] = *buff;

@@ -6,13 +6,12 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 12:15:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/08/10 19:54:18 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/09 19:47:43 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <unistd.h>
-#include <stdio.h>
 
 #define UNLIKELY(x)			__builtin_expect(!!(x), 0)
 

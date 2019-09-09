@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:59:08 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/07 15:19:20 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/09 19:44:05 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,32 @@ static	t_op const	g_op_tab[] =
 	{"aff", 1, {T_REG}, 16, 1, 0},
 	{0, 0, {0}, 0, 0, 0},
 };
-//protect mallocs
-//make macro size
-void					init_file(t_file *file, int fd, char *file_name)
+
+int						init_file(t_file *file, int fd, char *file_name)
 {
 	char	*ptr;
 
 	file->fd = fd;
-	file->hd = malloc(sizeof(t_header));
-	file->tmp = ft_strnew(0);
+	if (!(file->hd = malloc(sizeof(t_header))))
+		return (EXIT_ERROR);
+	if (!(file->tmp = ft_strnew(0)))
+		return (EXIT_ERROR);
 	ft_memset(file->hd, '\0', sizeof(t_header));
 	ptr = ft_strrchr(file_name, '.');
-	file->cor = ft_strnew(ptr - file_name + 4);
+	if (!(file->cor = ft_strnew(ptr - file_name + 4)))
+		return (EXIT_ERROR);
 	ft_strncpy(file->cor, file_name, ptr - file_name);
-	file->cor = ft_strnjoinfree(file->cor, ".cor", 4);
+	if (!(file->cor = ft_strnjoinfree(file->cor, ".cor", 4)))
+		return (EXIT_ERROR);
 	file->op_tab = g_op_tab;
 	file->label = NULL;
 	file->lab_list = NULL;
 	file->wr = 0;
 	file->cmnt = 0;
-	file->wr_buff = malloc(sizeof(uint8_t) * 5000);
-	ft_fast_bzero(file->wr_buff, 5000);
+	if ((file->wr_buff = malloc(sizeof(uint8_t) * CHMP_BUFF)))
+		return (EXIT_ERROR);
+	ft_fast_bzero(file->wr_buff, CHMP_BUFF);
+	return (EXIT_SUCCESS);
 }
 
 int						s_to_cor(char *file_name, t_file *file)

@@ -6,7 +6,7 @@
 /*   By: abrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 18:44:47 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/15 18:45:06 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/09 19:47:17 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 # ifndef EXIT_SUCCESS
 #  define EXIT_SUCCESS		0
 # endif
-
-# define STDERR_FILENO		2
 
 # define BUF_SIZE			5
 
@@ -37,7 +35,7 @@
 # define BADCMNT            "Comment format is not valid"
 
 # define BADOPARG           "Wrong number of arguments for this instruction"
-# define OPFMT              "Bad instruction argument" 
+# define OPFMT              "Bad instruction argument"
 # define INVLDCHAR          "Invalid character(s)"
 
 # define ERRLABEL           "Label is unknown"
@@ -46,10 +44,7 @@
 # define BADPARAM           "Argument type for instruction is not valid"
 # define BADOPTION			"Illegal option -- "
 # define BADOPT				"Invalid option value"
-# define NULLOPT			"Couldn't find option value"
 
-# define METAERR			"Error while reading metadata"
-# define NOCHAMP			"No warrior was loaded in the arena"
 # define CHAMPSIZERR		"Bad champion size (either zero or too large)"
 
 # define HELPMSG			"Try 'asm --help' for more information"

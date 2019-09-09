@@ -6,7 +6,7 @@
 /*   By: abrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 17:08:12 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/15 17:08:50 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/09 19:34:36 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ uint8_t		get_funptr_index(char *start, t_file *file, int size)
 	static	int name;
 	static	int cmnt;
 
-//	if (file->cmnt == 1)
-//		return (2);
 	if (*start == '.')
 	{
 		if (!(ft_strcmp(start, ".name")) && !name)
@@ -55,7 +53,7 @@ uint8_t		get_funptr_index(char *start, t_file *file, int size)
 	}
 	return (0);
 }
-#include <stdio.h>
+
 int			parse_line(t_file *file, char **buff, char *ptr,
 	int (**funptr)(t_file *, char **, char *, char **))
 {
@@ -63,18 +61,24 @@ int			parse_line(t_file *file, char **buff, char *ptr,
 	char				*start;
 	char				*end;
 
-//	printf("here && buffer = %s\n", *buff);
-	if (!(get_next_word((char const *)*buff, &start, &end)))
+	if (file->cmnt == 1)
+	{
+		start = *buff;
+		end = ptr;
+	}
+	else if (!(get_next_word((char const *)*buff, &start, &end)))
 		return (EXIT_SUCCESS);
-	if ((index = get_funptr_index(start, file, (int)(end - start))))
+	index = (file->cmnt) ? 2
+		: get_funptr_index(start, file, (int)(end - start));
+	if (index)
 	{
 		if ((funptr[index])(file, &start, ptr, &end) != EXIT_SUCCESS)
 			return (EXIT_ERROR);
-		return (parse_line(file, &end, ptr, funptr));
+		return ((file->cmnt) ? EXIT_SUCCESS
+				: parse_line(file, &end, ptr, funptr));
 	}
-//	if (file->cmnt < 0)
-//		return (EXIT_ERROR);
-//	if (file->cmnt == 1 || *start == '#' || *start == ';')
+	if (file->cmnt < 0)
+		return (EXIT_ERROR);
 	if (*start == '#' || *start == ';')
 		return (EXIT_SUCCESS);
 	return (ft_puterror(INVLDCHAR));

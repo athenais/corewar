@@ -17,7 +17,12 @@ t_label		*new_label(char *word, unsigned int start)
 {
 	t_label	*new;
 	int		size;
+	char	*s;
 
+	s = word;
+	while (*s != ':')
+		s++;
+	*s = '\0';
 	size = ft_strlen(word);
 	new = malloc(sizeof(t_label));
 	if (!(new->name = malloc(size + 1)))
@@ -49,7 +54,9 @@ t_lab		*lab_list(char **str, t_file *file, t_inst *inst)
 {
 	t_lab	*tmp;
 	t_lab	*new;
+	int		i;
 
+	i = 0;
 	if (!(new = new_lab(*str, file->hd->prog_size, inst->wr_size, inst->oct)))
 		return (NULL);
 	if (file->lab_list == NULL)

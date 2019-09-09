@@ -46,7 +46,7 @@ int			ft_trim(char *split, char **s, int arg)
 		str++;
 	size = (int)(str - split);
 	*s = str;
-	while (*str && *str != '#' && !(ft_iswhitespace(*str)))
+	while (*str && *str != '#' && *str != ';' && !(ft_iswhitespace(*str)))
 		str++;
 	word_size = (int)(str - *s);
 	size += word_size;

@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 14:00:30 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/15 17:04:34 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/09 19:41:17 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int			write_inst_with_ocp(t_file *file, t_inst inst)
 	}
 	return (EXIT_SUCCESS);
 }
-#include <stdio.h>
+
 int			write_instruction(t_file *file, t_inst inst)
 {
 	int		type;
@@ -84,7 +84,7 @@ int			write_instruction(t_file *file, t_inst inst)
 	{
 		tmp = inst.ocp >> 6 & 0x03;
 		if (tmp != file->op_tab[inst.index].type[0])
-			return(ft_puterror(BADPARAM));
+			return (ft_puterror(BADPARAM));
 		type = (file->op_tab[inst.index].dir_size) ? shrt : i;
 		file->hd->prog_size += write_to_cor(inst.param[0], type, file);
 	}

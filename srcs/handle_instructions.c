@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:44 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/07 15:22:30 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/09 19:35:57 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int			valid_register(char *str, t_inst *inst, int i)
 	return (EXIT_SUCCESS);
 }
 
-#include <stdio.h>
 int			valid_values(char *str, t_file *file, t_inst *inst, int i)
 {
 	int			shrt;
@@ -77,24 +76,6 @@ int			check_param(t_file *file, char *s, t_inst *inst, int i)
 	}
 	return (ft_puterror(OPFMT));
 }
-int			check_arg_num(char **split, int arg)
-{
-	char	*str;
-	int		i;
-
-	i = 0;
-	while (split[i])
-	{
-		str = split[i];
-		while (*str++)
-		{
-			if (*str == '#')
-				return ((arg != i + 1) ? EXIT_ERROR : EXIT_SUCCESS);
-		}
-		i++;
-	}
-	return ((arg != i) ? EXIT_ERROR : EXIT_SUCCESS);
-}
 
 int			handle_instruction(t_file *file, char **str, t_inst *inst)
 {
@@ -123,7 +104,7 @@ int			handle_instruction(t_file *file, char **str, t_inst *inst)
 	free_split(split);
 	return (EXIT_SUCCESS);
 }
-#include <stdio.h>
+
 int			get_instruction(t_file *file, char **wd, char *ptr, char **end)
 {
 	t_inst	inst;

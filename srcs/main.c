@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:59:23 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/07 15:18:47 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/09 19:24:46 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int		main(int argc, char **argv)
 {
-	t_file	file;
+	t_file			file;
 	unsigned int	i;
 
 	i = -1;
@@ -28,6 +28,8 @@ int		main(int argc, char **argv)
 			file.fd_cor = 0;
 			if (s_to_cor(argv[argc - 1], &file) == EXIT_SUCCESS)
 			{
+				if (file.cmnt == 1)
+					return (ft_puterror(BADCMNT));
 				if (write_to_cor_file(&file) != EXIT_SUCCESS)
 					return (EXIT_ERROR);
 				ft_dprintf(1, "writing output program to %s\n", file.cor);
@@ -35,7 +37,7 @@ int		main(int argc, char **argv)
 				return (EXIT_SUCCESS);
 			}
 			free_file(&file);
-		}		
+		}
 	}
 	return (EXIT_ERROR);
 }

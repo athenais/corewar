@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:59:37 by abrunet           #+#    #+#             */
-/*   Updated: 2019/08/15 19:05:46 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/09 19:35:14 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,24 @@
 #include <unistd.h>
 #include <limits.h>
 #include <asm_errors.h>
-#include <stdio.h>
 
 t_label		*label_exist(char *str, t_file *file)
 {
 	t_label	*tmp;
+	int 	nb;
 
 	tmp = file->label;
 	while (tmp)
 	{
-		if (ft_strlen(str) == ft_strlen(tmp->name))
+		if (ft_strlen(str + 1) == ft_strlen(tmp->name))
 		{
-			if (ft_strcmp(tmp->name, str + 1) == 58)
+			if (!(nb = ft_strcmp(tmp->name, str + 1)))
 				return (tmp);
 		}
 		tmp = tmp->next;
 	}
 	return (NULL);
 }
-
 int			write_label(t_file *file, t_lab *lab, t_label *label)
 {
 	unsigned int	diff;
@@ -42,29 +41,21 @@ int			write_label(t_file *file, t_lab *lab, t_label *label)
 
 	off_set = sizeof(t_header) + lab->filler;
 	lseek(file->fd_cor, off_set, SEEK_SET);
-//	printf("%d = lab->start && %d = label->start\n", lab->start, label->start);
 	diff = lab->start - label->start;
-//	printf("%s ", label->name);
 	if (lab->size == shrt)
 	{
 		shrt_sum = USHRT_MAX - (diff - 1);
-//		printf("label = %d\n", shrt_sum);
 		if (write_to_cor(shrt_sum, shrt, file) == EXIT_ERROR)
 			return (EXIT_ERROR);
 	}
 	else
 	{
 		i_sum = UINT_MAX - (diff - 1);
-//		printf("label = %d\n", i_sum);
 		if (write_to_cor(i_sum, i, file) == EXIT_ERROR)
 			return (EXIT_ERROR);
 	}
 	return (EXIT_SUCCESS);
 }
-
-/*
-** add free
-*/
 
 int			parse_lab_list(t_file *file)
 {

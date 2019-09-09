@@ -19,6 +19,7 @@
 # include "../libft/libft.h"
 
 # define ASM_EXT		".s"
+# define CHMP_BUFF		5000
 
 enum					e_byte {
 	c = 8,
@@ -112,6 +113,7 @@ int						ft_trim(char *split, char **s, int arg);
 int						parse_lab_list(t_file *file);
 int						inc_size(t_inst *inst, int type);
 int						write_to_cor_file(t_file *file);
+int						check_arg_num(char **split, int arg);
 int64_t					asm_atoi(char **string, int shrt);
 t_lab					*lab_list(char **str, t_file *file, t_inst *inst);
 t_label					*make_label(char **wd, t_file *file,
