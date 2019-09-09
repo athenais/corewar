@@ -22,7 +22,6 @@ int		get_champ_name(t_file *file, char **wd, char *ptr, char **end)
 	*end = (*end != ptr) ? *end + 1 : *end;
 	while ((ft_iswhitespace(**end)))
 		(*end)++;
-//	printf("end = %s\n", *end);
 	if (**end == '"')
 	{
 		if ((p = ft_strchr(*end + 1, '"')))
@@ -36,7 +35,40 @@ int		get_champ_name(t_file *file, char **wd, char *ptr, char **end)
 	}
 	return (ft_puterror(BADNAME));
 }
+/*	char const 	*s;
 
+	if (!file->cmnt)
+	{
+		*end = (*end != ptr) ? *end + 1 : *end;
+		while ((ft_iswhitespace(**end)))
+			(*end)++;
+	}
+	if (**end == '"' || file->cmnt == 1)
+	{
+		s = (!file->cmnt) ? *end + 1 : *wd;
+		if ((p = ft_strchr(s, '"')))
+			file->tmp = ft_strnjoinfree(file->tmp, s, (size_t)(p - (s)));
+		else
+		{
+			file->cmnt = 1;
+			file->tmp = ft_strnjoinfree(file->tmp, s, ft_strlen((s)));
+			file->tmp = ft_strnjoinfree(file->tmp, "\n", 1);
+		}
+		if (ft_strlen(file->tmp) > COMMENT_LENGTH && (file->cmnt = -1))
+			return (ft_puterror(LCMNT));
+		if (p)
+		{	
+			file->cmnt = 0;
+			ft_strcpy(file->hd->comment, file->tmp);
+			free(file->tmp);
+			*end = p + 1;
+		}
+		else
+			*end += ft_strlen(s) + 1;
+		return (EXIT_SUCCESS);
+	}
+	file->cmnt = -1;
+	*/
 int		get_comment(t_file *file, char **wd, char *ptr, char **end)
 {
 	char	*p;

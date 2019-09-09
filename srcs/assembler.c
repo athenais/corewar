@@ -36,13 +36,15 @@ static	t_op const	g_op_tab[] =
 	{"aff", 1, {T_REG}, 16, 1, 0},
 	{0, 0, {0}, 0, 0, 0},
 };
-
+//protect mallocs
+//make macro size
 void					init_file(t_file *file, int fd, char *file_name)
 {
 	char	*ptr;
 
 	file->fd = fd;
 	file->hd = malloc(sizeof(t_header));
+	file->tmp = ft_strnew(0);
 	ft_memset(file->hd, '\0', sizeof(t_header));
 	ptr = ft_strrchr(file_name, '.');
 	file->cor = ft_strnew(ptr - file_name + 4);
@@ -51,6 +53,10 @@ void					init_file(t_file *file, int fd, char *file_name)
 	file->op_tab = g_op_tab;
 	file->label = NULL;
 	file->lab_list = NULL;
+	file->wr = 0;
+	file->cmnt = 0;
+	file->wr_buff = malloc(sizeof(uint8_t) * 5000);
+	ft_fast_bzero(file->wr_buff, 5000);
 }
 
 int						s_to_cor(char *file_name, t_file *file)
@@ -60,9 +66,5 @@ int						s_to_cor(char *file_name, t_file *file)
 	if ((fd = open(file_name, O_RDONLY)) == EXIT_ERROR)
 		return (ft_puterror(FILERR));
 	init_file(file, fd, file_name);
-	if ((file->fd_cor = open(file->cor, O_CREAT | O_WRONLY
-					| O_TRUNC, 0666)) == EXIT_ERROR)
-		return (ft_puterror(FILERR));
-	write(file->fd_cor, file->hd, sizeof(t_header));
 	return (read_file(file));
 }

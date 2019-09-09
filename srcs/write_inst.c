@@ -71,6 +71,7 @@ int			write_instruction(t_file *file, t_inst inst)
 {
 	int		type;
 	int		op_code;
+	int		tmp;
 
 	op_code = file->op_tab[inst.index].op_code;
 	file->hd->prog_size += write_to_cor(op_code, c, file);
@@ -81,8 +82,9 @@ int			write_instruction(t_file *file, t_inst inst)
 	}
 	else
 	{
-		printf("HERE\n");
-		printf("%d \n", inst.ocp);
+		tmp = inst.ocp >> 6 & 0x03;
+		if (tmp != file->op_tab[inst.index].type[0])
+			return(ft_puterror(BADPARAM));
 		type = (file->op_tab[inst.index].dir_size) ? shrt : i;
 		file->hd->prog_size += write_to_cor(inst.param[0], type, file);
 	}

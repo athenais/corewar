@@ -62,8 +62,12 @@ typedef	struct			s_file
 	int					fd;
 	int					fd_cor;
 	int					line;
+	int					wr;
+	int					cmnt;
+	char				*tmp;
 	off_t				bytes;
 	char				*cor;
+	uint8_t				*wr_buff;
 	struct s_header		*hd;
 	struct s_label		*label;
 	struct s_lab		*lab_list;
@@ -103,9 +107,11 @@ void					write_header(t_file *file);
 int						write_instruction(t_file *file, t_inst inst);
 void					free_split(char **split);
 void					free_label(t_label *label, t_lab *lab);
+void					free_file(t_file *file);
 int						ft_trim(char *split, char **s, int arg);
 int						parse_lab_list(t_file *file);
 int						inc_size(t_inst *inst, int type);
+int						write_to_cor_file(t_file *file);
 int64_t					asm_atoi(char **string, int shrt);
 t_lab					*lab_list(char **str, t_file *file, t_inst *inst);
 t_label					*make_label(char **wd, t_file *file,

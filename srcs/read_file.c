@@ -31,6 +31,8 @@ uint8_t		get_funptr_index(char *start, t_file *file, int size)
 	static	int name;
 	static	int cmnt;
 
+//	if (file->cmnt == 1)
+//		return (2);
 	if (*start == '.')
 	{
 		if (!(ft_strcmp(start, ".name")) && !name)
@@ -61,6 +63,7 @@ int			parse_line(t_file *file, char **buff, char *ptr,
 	char				*start;
 	char				*end;
 
+//	printf("here && buffer = %s\n", *buff);
 	if (!(get_next_word((char const *)*buff, &start, &end)))
 		return (EXIT_SUCCESS);
 	if ((index = get_funptr_index(start, file, (int)(end - start))))
@@ -69,6 +72,9 @@ int			parse_line(t_file *file, char **buff, char *ptr,
 			return (EXIT_ERROR);
 		return (parse_line(file, &end, ptr, funptr));
 	}
+//	if (file->cmnt < 0)
+//		return (EXIT_ERROR);
+//	if (file->cmnt == 1 || *start == '#' || *start == ';')
 	if (*start == '#' || *start == ';')
 		return (EXIT_SUCCESS);
 	return (ft_puterror(INVLDCHAR));
@@ -93,7 +99,6 @@ int			read_file(t_file *file)
 	{
 		if (parse_line(file, &buffer, buffer + (ret - 1), funptr) == EXIT_ERROR)
 		{
-	//		printf("%d = line\n", file->line++);
 			free((void *)buffer);
 			return (EXIT_ERROR);
 		}
@@ -101,7 +106,5 @@ int			read_file(t_file *file)
 		free((void *)buffer);
 	}
 	free((void *)buffer);
-	if (parse_lab_list(file) != EXIT_SUCCESS)
-		return (EXIT_ERROR);
 	return (EXIT_SUCCESS);
 }

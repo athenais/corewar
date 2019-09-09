@@ -12,6 +12,8 @@
 
 #include <unistd.h>
 #include <asm.h>
+#include <asm_errors.h>
+#include <fcntl.h>
 
 void		write_string(t_file *file, int len)
 {
@@ -41,24 +43,49 @@ void		write_header(t_file *file)
 	write_string(file, COMMENT_LENGTH);
 }
 
-void		wr_bin(const char *code, t_file *file, uint8_t *buff, int *bit_cnt)
+int		write_to_cor_file(t_file *file)
+{
+	unsigned int	i;
+
+	i = -1;
+	if ((file->fd_cor = open(file->cor, O_CREAT | O_WRONLY
+		| O_TRUNC, 0666)) == EXIT_ERROR)
+				return (ft_puterror(FILERR));
+	write(file->fd_cor, file->hd, sizeof(t_header));
+	while (++i < file->hd->prog_size)
+		ft_putchar_fd(file->wr_buff[i], file->fd_cor);
+	if (parse_lab_list(file) != EXIT_SUCCESS)
+		return (EXIT_ERROR);
+	lseek(file->fd_cor, 0, SEEK_SET);
+	write_header(file);
+	return (EXIT_SUCCESS);
+}
+
+int		wr_bin(const char *code, t_file *file, uint8_t *buff, int *bit_cnt)
 {
 	char	c;
 	int		bit;
+	static	int size;
 
 	while ((c = *code))
 	{
 		bit = c - '0';
 		*buff |= bit << (7 - *bit_cnt);
 		++(*bit_cnt);
-		if (*bit_cnt == 8)
+		if (*bit_cnt == 8)		
 		{
-			ft_putchar_fd(*buff, file->fd_cor);
+			if (!file->wr)
+				file->wr_buff[size] = *buff;
+			else
+				ft_putchar_fd(*buff, file->fd_cor);
 			*buff = 0;
 			*bit_cnt = 0;
+			if (!file->wr && size++ == 5000)
+				ft_puterror(CHAMPSIZERR);
 		}
 		code++;
 	}
+	return (EXIT_SUCCESS);
 }
 
 int			write_to_cor(unsigned int byte, int oct, t_file *file)
@@ -71,7 +98,8 @@ int			write_to_cor(unsigned int byte, int oct, t_file *file)
 	bit_cnt = 0;
 	if (!(byte_code = ft_itoa_bse(byte, 2, oct)))
 		return (-1);
-	wr_bin(byte_code, file, &buffer, &bit_cnt);
+	if (wr_bin(byte_code, file, &buffer, &bit_cnt) < 0)
+		return (-1);
 	buffer = 0;
 	bit_cnt = 0;
 	free((void *)byte_code);

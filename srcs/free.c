@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <asm.h>
+#include <unistd.h>
 
 void		free_label(t_label *label, t_lab *lab)
 {
@@ -52,4 +53,16 @@ void		free_split(char **split)
 	}
 	free(split);
 	split = NULL;
+}
+
+void	free_file(t_file *file)
+{
+	free_label(file->label, file->lab_list);
+	if (file->fd_cor)
+		close(file->fd_cor);
+	if (file->fd != -1)
+		close(file->fd);
+	free((void *)file->hd);
+	free((void *)file->cor);
+	free((void *)file->wr_buff);
 }

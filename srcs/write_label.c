@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include <asm_errors.h>
+#include <stdio.h>
 
 t_label		*label_exist(char *str, t_file *file)
 {
@@ -41,16 +42,20 @@ int			write_label(t_file *file, t_lab *lab, t_label *label)
 
 	off_set = sizeof(t_header) + lab->filler;
 	lseek(file->fd_cor, off_set, SEEK_SET);
+//	printf("%d = lab->start && %d = label->start\n", lab->start, label->start);
 	diff = lab->start - label->start;
+//	printf("%s ", label->name);
 	if (lab->size == shrt)
 	{
 		shrt_sum = USHRT_MAX - (diff - 1);
+//		printf("label = %d\n", shrt_sum);
 		if (write_to_cor(shrt_sum, shrt, file) == EXIT_ERROR)
 			return (EXIT_ERROR);
 	}
 	else
 	{
 		i_sum = UINT_MAX - (diff - 1);
+//		printf("label = %d\n", i_sum);
 		if (write_to_cor(i_sum, i, file) == EXIT_ERROR)
 			return (EXIT_ERROR);
 	}
@@ -66,6 +71,7 @@ int			parse_lab_list(t_file *file)
 	t_lab	*tmp;
 	t_label	*label;
 
+	file->wr = 1;
 	if (!(file->lab_list))
 		return (EXIT_SUCCESS);
 	tmp = file->lab_list;

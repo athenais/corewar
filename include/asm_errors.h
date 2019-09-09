@@ -21,10 +21,6 @@
 #  define EXIT_SUCCESS		0
 # endif
 
-# ifndef EXIT_FAILURE
-#  define EXIT_FAILURE		1
-# endif
-
 # define STDERR_FILENO		2
 
 # define BUF_SIZE			5
@@ -37,17 +33,17 @@
 # define LNAME              "Champion name size is too big"
 # define LCMNT              "Header comment size is too big"
 
-# define BADNAME            "name format is not valid"
-# define BADCMNT            "comment format is not valid"
+# define BADNAME            "Name format is not valid"
+# define BADCMNT            "Comment format is not valid"
 
 # define BADOPARG           "Wrong number of arguments for this instruction"
-# define OPFMT              "Bad instruction argument"
+# define OPFMT              "Bad instruction argument" 
 # define INVLDCHAR          "Invalid character(s)"
 
 # define ERRLABEL           "Label is unknown"
 # define DUPLAB             "Label already exists"
 
-# define BADPARAM           "argument type for instruction is not valid"
+# define BADPARAM           "Argument type for instruction is not valid"
 # define BADOPTION			"Illegal option -- "
 # define BADOPT				"Invalid option value"
 # define NULLOPT			"Couldn't find option value"

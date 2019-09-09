@@ -11,24 +11,14 @@
 /* ************************************************************************** */
 
 #include <asm_errors.h>
-#include <unistd.h>
 #include <asm.h>
-
-void	free_file(t_file *file)
-{
-	free_label(file->label, file->lab_list);
-	if (file->fd_cor)
-		close(file->fd_cor);
-	if (file->fd != -1)
-		close(file->fd);
-	free((void *)file->hd);
-	free((void *)file->cor);
-}
 
 int		main(int argc, char **argv)
 {
 	t_file	file;
+	unsigned int	i;
 
+	i = -1;
 	if (argc < 2)
 		ft_print_asm_usage();
 	else
@@ -38,9 +28,9 @@ int		main(int argc, char **argv)
 			file.fd_cor = 0;
 			if (s_to_cor(argv[argc - 1], &file) == EXIT_SUCCESS)
 			{
-				lseek(file.fd_cor, 0, SEEK_SET);
-				write_header(&file);
-				ft_dprintf(1, "writing output to %s\n", file.cor);
+				if (write_to_cor_file(&file) != EXIT_SUCCESS)
+					return (EXIT_ERROR);
+				ft_dprintf(1, "writing output program to %s\n", file.cor);
 				free_file(&file);
 				return (EXIT_SUCCESS);
 			}
