@@ -28,6 +28,7 @@ int			valid_register(char *str, t_inst *inst, int i)
 	return (EXIT_SUCCESS);
 }
 
+#include <stdio.h>
 int			valid_values(char *str, t_file *file, t_inst *inst, int i)
 {
 	int			shrt;
@@ -76,7 +77,6 @@ int			check_param(t_file *file, char *s, t_inst *inst, int i)
 	}
 	return (ft_puterror(OPFMT));
 }
-#include <stdio.h>
 int			check_arg_num(char **split, int arg)
 {
 	char	*str;
@@ -86,14 +86,10 @@ int			check_arg_num(char **split, int arg)
 	while (split[i])
 	{
 		str = split[i];
-//		printf("%s = str\n", str);
 		while (*str++)
 		{
 			if (*str == '#')
-			{
-//				printf("arg = %d i = %d\n", arg, i);
 				return ((arg != i + 1) ? EXIT_ERROR : EXIT_SUCCESS);
-			}
 		}
 		i++;
 	}
@@ -138,7 +134,6 @@ int			get_instruction(t_file *file, char **wd, char *ptr, char **end)
 	*end = (*end != ptr) ? *end + 1 : *end;
 	if (handle_instruction(file, end, &inst) != EXIT_SUCCESS)
 		return (EXIT_ERROR);
-//	printf("check\n");
 	if (write_instruction(file, inst) == EXIT_ERROR)
 		return (EXIT_ERROR);
 	return (EXIT_SUCCESS);

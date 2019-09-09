@@ -66,7 +66,7 @@ int			write_inst_with_ocp(t_file *file, t_inst inst)
 	}
 	return (EXIT_SUCCESS);
 }
-
+#include <stdio.h>
 int			write_instruction(t_file *file, t_inst inst)
 {
 	int		type;
@@ -81,6 +81,8 @@ int			write_instruction(t_file *file, t_inst inst)
 	}
 	else
 	{
+		printf("HERE\n");
+		printf("%d \n", inst.ocp);
 		type = (file->op_tab[inst.index].dir_size) ? shrt : i;
 		file->hd->prog_size += write_to_cor(inst.param[0], type, file);
 	}

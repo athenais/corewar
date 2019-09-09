@@ -13,7 +13,17 @@
 #include <asm_errors.h>
 #include <unistd.h>
 #include <asm.h>
-#include <stdio.h>
+
+void	free_file(t_file *file)
+{
+	free_label(file->label, file->lab_list);
+	if (file->fd_cor)
+		close(file->fd_cor);
+	if (file->fd != -1)
+		close(file->fd);
+	free((void *)file->hd);
+	free((void *)file->cor);
+}
 
 int		main(int argc, char **argv)
 {
@@ -31,17 +41,11 @@ int		main(int argc, char **argv)
 				lseek(file.fd_cor, 0, SEEK_SET);
 				write_header(&file);
 				ft_dprintf(1, "writing output to %s\n", file.cor);
+				free_file(&file);
+				return (EXIT_SUCCESS);
 			}
-			else 
-				return (EXIT_ERROR);
-			free_label(file.label, file.lab_list);
-			if (file.fd_cor)
-				close(file.fd_cor);
-			if (file.fd != -1)
-				close(file.fd);
-			free((void *)file.hd);
-			free((void *)file.cor);
-		}
+			free_file(&file);
+		}		
 	}
-	return (EXIT_SUCCESS);
+	return (EXIT_ERROR);
 }

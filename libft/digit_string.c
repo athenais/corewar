@@ -17,6 +17,10 @@ int			digit_string(char *s)
 	int		i;
 
 	i = -1;
+	if (!s)
+		return (0);
+	if (s && !(*s))
+		return (0);
 	while (s[++i])
 	{
 		if (!(ft_isdigit(s[i])))
