@@ -26,53 +26,89 @@ int			is_instruction(char *str, t_op const *op_tab)
 	return (EXIT_ERROR);
 }
 
-uint8_t		get_funptr_index(char *start, t_file *file, int size)
+#include <stdio.h>
+int			check_header_var(int *name, int *cmnt, char **start, char **end)
 {
-	static	int name;
-	static	int cmnt;
+	int		size;
 
-	if (*start == '.')
+	if	(!(*name)
+		&& !(ft_strncmp(*start, ".name", (size = ft_strlen(".name")))))
 	{
-		if (!(ft_strcmp(start, ".name")) && !name)
-		{
-			name = 1;
-			return (1);
-		}
-		else if (!(ft_strcmp(start, ".comment")) && !cmnt)
-		{
-			cmnt = 1;
-			return (2);
-		}
+		*name = 1;
+		*end = *start + size;
+		return (1);
 	}
-	else if (size > 0 && name && cmnt)
+	else if	(!(*cmnt)
+		&& !(ft_strncmp(*start, ".comment", (size = ft_strlen(".comment")))))
 	{
-		if (start[size - 1] == ':')
-			return (3);
-		else if (is_instruction(start, file->op_tab) != EXIT_ERROR)
-			return (4);
+		*cmnt = 1;
+		*end = *start + size;
+		return (2);
 	}
 	return (0);
 }
 
+uint8_t		get_funptr_index(char **start, char **end, t_file *file)
+{
+	static	int name;
+	static	int cmnt;
+	char	s[INST_MAX_SIZE];
+	int		i;
+
+	i = 0;
+	ft_fast_bzero(s, INST_MAX_SIZE);
+	if (**start == '.')
+		return (check_header_var(&name, &cmnt, start, end));
+	else if (name && cmnt)
+	{
+		while ((*start)[i] && !ft_iswhitespace((*start)[i])
+			&& (*start)[i] != ':' && (*start)[i] != '%')
+			i++;
+		if ((*start)[i] == ':')
+		{
+			*end = *start + i + 1;
+			return (3);
+		}
+		else if (i < INST_MAX_SIZE && (*start)[i]
+			&& (ft_iswhitespace((*start)[i]) || (*start)[i] == '%'))
+		{
+			ft_strncpy(s, (*start), i);
+			if (is_instruction(s, file->op_tab) != EXIT_ERROR)
+			{
+				*end = *start + i;
+				*start = s;
+				return (4);
+			}
+		}
+	}
+	return (0);
+}
 int			parse_line(t_file *file, char **buff, char *ptr,
-	int (**funptr)(t_file *, char **, char *, char **))
+	int (**funptr)(t_file *, char **, char **))
 {
 	static	uint8_t		index;
+	int					i;
 	char				*start;
 	char				*end;
 
+	i = 0;
+	while (*buff && ft_iswhitespace((*buff)[i]))
+		i++;
+	if (!(*buff) || !(*buff)[i])
+		return(EXIT_SUCCESS);
+	start = *buff + i;
+//	printf("|%s| = buffer\n", *buff);
 	if (file->cmnt == 1)
 	{
 		start = *buff;
 		end = ptr;
 	}
-	else if (!(get_next_word((char const *)*buff, &start, &end)))
-		return (EXIT_SUCCESS);
 	index = (file->cmnt) ? 2
-		: get_funptr_index(start, file, (int)(end - start));
+		: get_funptr_index(&start, &end, file);
+//	printf("%d = index\n", index);
 	if (index)
 	{
-		if ((funptr[index])(file, &start, ptr, &end) != EXIT_SUCCESS)
+		if ((funptr[index])(file, &start, &end) != EXIT_SUCCESS)
 			return (EXIT_ERROR);
 		return ((file->cmnt) ? EXIT_SUCCESS
 				: parse_line(file, &end, ptr, funptr));
@@ -89,7 +125,7 @@ int			read_file(t_file *file)
 	char				*buffer;
 	static char			*string;
 	int					ret;
-	int					(*funptr[5])(t_file *, char **, char *, char **);
+	int					(*funptr[5])(t_file *, char **, char **);
 
 	file->line = 1;
 	funptr[1] = &get_champ_name;

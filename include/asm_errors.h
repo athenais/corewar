@@ -38,6 +38,7 @@
 # define OPFMT              "Bad instruction argument"
 # define INVLDCHAR          "Invalid character(s)"
 
+# define ERRLAB           "Invalid label format"
 # define ERRLABEL           "Label is unknown"
 # define DUPLAB             "Label already exists"
 

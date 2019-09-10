@@ -20,6 +20,7 @@
 
 # define ASM_EXT		".s"
 # define CHMP_BUFF		5000
+# define INST_MAX_SIZE	6
 
 enum					e_byte {
 	c = 8,
@@ -88,14 +89,10 @@ typedef struct			s_op
 int						check_extension(char *str);
 int						read_file(t_file *file);
 int						s_to_cor(char *file_name, t_file *file);
-int						get_champ_name(t_file *file, char **wd,
-		char *ptr, char **end);
-int						get_comment(t_file *file, char **wd,
-		char *ptr, char **end);
-int						get_label(t_file *file, char **wd,
-		char *ptr, char **end);
-int						get_instruction(t_file *file, char **wd,
-		char *ptr, char **end);
+int						get_champ_name(t_file *file, char **wd, char **end);
+int						get_comment(t_file *file, char **wd, char **end);
+int						get_label(t_file *file, char **wd, char **end);
+int						get_instruction(t_file *file, char **wd, char **end);
 void					init_inst(t_inst *inst, t_file *file);
 int						handle_instruction(t_file *file, char **str,
 		t_inst *inst);

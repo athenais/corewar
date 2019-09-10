@@ -105,14 +105,15 @@ int			handle_instruction(t_file *file, char **str, t_inst *inst)
 	return (EXIT_SUCCESS);
 }
 
-int			get_instruction(t_file *file, char **wd, char *ptr, char **end)
+int			get_instruction(t_file *file, char **wd, char **end)
 {
 	t_inst	inst;
 
+	while (**end && ft_iswhitespace(**end))
+		(*end)++;
 	if ((inst.index = is_instruction(*wd, file->op_tab)) < 0)
 		return (ft_puterror(BADOP));
 	init_inst(&inst, file);
-	*end = (*end != ptr) ? *end + 1 : *end;
 	if (handle_instruction(file, end, &inst) != EXIT_SUCCESS)
 		return (EXIT_ERROR);
 	if (write_instruction(file, inst) == EXIT_ERROR)

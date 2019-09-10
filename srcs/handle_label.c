@@ -17,17 +17,26 @@ t_label		*new_label(char *word, unsigned int start)
 {
 	t_label	*new;
 	int		size;
-	char	*s;
-
-	s = word;
-	size = ft_strlen(word);
-	s[size - 1] = '\0';
-	new = malloc(sizeof(t_label));
-	if (!(new->name = malloc(size + 1)))
+	
+	size = 0;
+	while (word[size] != ':')
+		size++; 
+	if (!size)
+	{
+		ft_puterror(ERRLAB);
 		return (NULL);
-	ft_strcpy(new->name, word);
+	}
+	new = malloc(sizeof(t_label));
+	if (!(new->name = ft_strnew(size)))
+		return (NULL);
+	ft_strncpy(new->name, word, size);
 	new->start = start;
 	new->next = NULL;
+	if (valid_instruction_format(new->name, label) != EXIT_SUCCESS)
+	{
+		ft_puterror(OPFMT);
+		return (NULL);
+	}
 	return (new);
 }
 
@@ -94,12 +103,9 @@ t_label		*make_label(char **wd, t_file *file, unsigned int start)
 	}
 	return (new);
 }
-
-int			get_label(t_file *file, char **wd, char *ptr, char **end)
+int			get_label(t_file *file, char **wd, char **end)
 {
-	if (valid_instruction_format(*wd, label) != EXIT_SUCCESS)
-		return (ft_puterror(OPFMT));
-	*end = (*end != ptr) ? *end + 1 : *end;
+	(void)end;
 	if (make_label(wd, file, file->hd->prog_size) == NULL)
 		return (EXIT_ERROR);
 	return (EXIT_SUCCESS);
