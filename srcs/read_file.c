@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 17:08:12 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/11 19:59:01 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/11 22:14:02 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int			parse_line(t_file *file, char **buff,
 		return (EXIT_ERROR);
 	if (*start == '#' || *start == ';')
 		return (EXIT_SUCCESS);
-	return (ft_puterror(INVLDCHAR));
+	return (ft_puterror(INVLDCHAR, file->line));
 }
 
 int			read_file(t_file *file)
@@ -125,6 +125,7 @@ int			read_file(t_file *file)
 		file->mult_lab = 0;
 		if (parse_line(file, &buffer, funptr) == EXIT_ERROR)
 			return (file_read_free(buffer, string, 1));
+		file->line++;
 		free((void *)buffer);
 	}
 	return (file_read_free(buffer, string, 0));

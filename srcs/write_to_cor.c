@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:08 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/09 19:43:06 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/11 22:12:31 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int			write_to_cor_file(t_file *file)
 	i = -1;
 	if ((file->fd_cor = open(file->cor, O_CREAT | O_WRONLY
 		| O_TRUNC, 0666)) == EXIT_ERROR)
-		return (ft_puterror(FILERR));
+		return (ft_puterror(FILERR, file->line));
 	write(file->fd_cor, file->hd, sizeof(t_header));
 	while (++i < file->hd->prog_size)
 		ft_putchar_fd(file->wr_buff[i], file->fd_cor);
@@ -80,8 +80,8 @@ int			wr_bin(const char *code, t_file *file, uint8_t *buff, int *bit_cnt)
 				ft_putchar_fd(*buff, file->fd_cor);
 			*buff = 0;
 			*bit_cnt = 0;
-			if (!file->wr && size++ == 5000)
-				ft_puterror(CHAMPSIZERR);
+			if (!file->wr && size++ == CHMP_BUFF)
+				return (ft_puterror(CHAMPSIZERR, file->line));
 		}
 		code++;
 	}

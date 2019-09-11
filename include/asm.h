@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:58:03 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/11 19:26:19 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/11 22:04:46 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef	struct			s_file
 	int					mult_lab;
 	int					mult_inst;
 	int					op;
+	int					line;
 	char				*tmp;
 	off_t				bytes;
 	char				*cor;

@@ -6,7 +6,7 @@
 #    By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/09/11 14:05:03 by abrunet          ###   ########.fr        #
+#    Updated: 2019/09/11 22:34:13 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,12 +64,12 @@ YELLOW		=	\033[1;33m
 ########## RULES ##########
 all				: $(NAME)
 
-$(NAME)			: $(LIBFT) $(OBJ)
+$(NAME)			: $(LIBFT) $(OBJ) 
 	printf "$(YELLOW)%-35s$(STD)" "Building $@... " > $(STDOUT)
 	gcc $(CFLAGS) $(OBJ) -o $@ $(CLIBFT)
 	echo "$(GREEN)DONE$(STD)" > $(STDOUT)
 
-$(LIBFT)		: $(LIBDIR)/libft.h
+$(LIBFT)		: $(LIBDIR)/libft.h 
 	printf "$(YELLOW)%-35s$(STD)" "Building $@... " > $(STDOUT)
 	make -C $(LIBDIR)
 	echo "$(GREEN)DONE$(STD)" > $(STDOUT)

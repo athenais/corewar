@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:59:23 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/11 15:07:54 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/11 22:09:18 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@ int		valid_test(t_file *file)
 
 	err = 0;
 	if (file->cmnt == 1)
-		err = ft_puterror(BADCMNT);
+		err = ft_puterror(BADCMNT, file->line);
 	else if (!file->op)
-		err = ft_puterror(NOOP);
+		err = ft_puterror(NOOP, file->line);
 	else if (file->lab_list)
 	{
 		tmp = file->lab_list;
 		while (tmp && !err)
 		{
 			if (!(label = label_exist(tmp->name, file)))
-				err = ft_puterror(ERRLABEL);
+				err = ft_puterror(ERRLABEL, tmp->start);
 			tmp = tmp->next;
 		}
 	}
@@ -45,9 +45,7 @@ int		valid_test(t_file *file)
 int		main(int argc, char **argv)
 {
 	t_file			file;
-	unsigned int	i;
 
-	i = -1;
 	if (argc < 2)
 		ft_print_asm_usage();
 	else

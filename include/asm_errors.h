@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 18:44:47 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/11 15:07:00 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/11 22:02:18 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@
 # define HELPMSG			"Try 'asm --help' for more information"
 
 void						ft_print_asm_usage(void);
-int							ft_puterror(char const *str);
-int							ft_puterror_and_close_fd(char const *str, int fd);
+int							ft_puterror(char const *str, int line);
 
 #endif

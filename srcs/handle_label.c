@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:58:14 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/11 14:13:38 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/11 22:12:44 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_label		*new_label(char *word, unsigned int start)
 		size++;
 	if (!size)
 	{
-		ft_puterror(ERRLAB);
+		ft_puterror(ERRLAB, start);
 		return (NULL);
 	}
 	new = malloc(sizeof(t_label));
@@ -34,7 +34,7 @@ t_label		*new_label(char *word, unsigned int start)
 	new->next = NULL;
 	if (valid_instruction_format(new->name, label) != EXIT_SUCCESS)
 	{
-		ft_puterror(OPFMT);
+		ft_puterror(OPFMT, start);
 		return (NULL);
 	}
 	return (new);
@@ -61,9 +61,7 @@ t_lab		*lab_list(char **str, t_file *file, t_inst *inst)
 {
 	t_lab	*tmp;
 	t_lab	*new;
-	int		i;
 
-	i = 0;
 	if (!(new = new_lab(*str, file->hd->prog_size, inst->wr_size, inst->oct)))
 		return (NULL);
 	if (file->lab_list == NULL)
@@ -94,7 +92,7 @@ t_label		*make_label(char **wd, t_file *file, unsigned int start)
 		{
 			if (!(ft_strcmp(*wd, tmp->name)))
 			{
-				ft_puterror(DUPLAB);
+				ft_puterror(DUPLAB, tmp->start);
 				return (NULL);
 			}
 			tmp = tmp->next;

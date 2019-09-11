@@ -6,7 +6,7 @@
 #    By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/10 18:37:35 by thflahau          #+#    #+#              #
-#    Updated: 2019/09/11 15:10:49 by abrunet          ###   ########.fr        #
+#    Updated: 2019/09/11 22:33:12 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRCS	=	ft_isdigit.c	ft_memset.c		ft_putchar.c			\
 			ft_memcpy.c		ft_readline.c	ft_strcat.c				\
 			ft_strcpy.c		ft_strncpy.c	ft_putstr_endl_free.c	\
 			ft_strsplit.c 	ft_dprintf.c	digit_string.c			\
-			ft_printable.c	ft_iswhitespace.c	
+			ft_printable.c	ft_itoa.c		ft_iswhitespace.c	
 
 OBJDIR	=	objs/
 

@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:59:08 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/11 14:44:09 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/11 22:09:52 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int						init_file(t_file *file, char *file_name)
 	file->lab_list = NULL;
 	file->wr = 0;
 	file->cmnt = 0;
+	file->line = 1;
 	file->op = 0;
 	if ((file->wr_buff = malloc(sizeof(uint8_t) * CHMP_BUFF)))
 		return (EXIT_ERROR);
@@ -67,7 +68,7 @@ int						init_file(t_file *file, char *file_name)
 int						s_to_cor(char *file_name, t_file *file)
 {
 	if ((file->fd = open(file_name, O_RDONLY)) == EXIT_ERROR)
-		return (ft_puterror(FILERR));
+		return (ft_puterror(FILERR, 0));
 	init_file(file, file_name);
 	return (read_file(file));
 }

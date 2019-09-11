@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 18:36:33 by thflahau          #+#    #+#             */
-/*   Updated: 2019/08/15 18:38:41 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/11 22:22:13 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ int					get_next_word(char const *str, char **start, char **end);
 char				**ft_strsplit(char const *s, char c);
 void				ft_dprintf(int fd, char const *fmt, ...);
 int					digit_string(char *s);
+char				*ft_itoa(int n);
 
 #endif

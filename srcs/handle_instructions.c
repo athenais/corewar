@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:44 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/11 19:12:10 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/11 22:07:17 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int			check_param(t_file *file, char *s, t_inst *inst, int i)
 	if (!i)
 		shift = c - 2;
 	if (valid_instruction_format(s, instruction) != EXIT_SUCCESS)
-		return (ft_puterror(OPFMT));
+		return (ft_puterror(OPFMT, file->line));
 	if (*s == 'r')
 	{
 		inc_size(inst, T_REG);
@@ -74,7 +74,7 @@ int			check_param(t_file *file, char *s, t_inst *inst, int i)
 			&& (inst->wr_size += inc_size(inst, type)))
 			return (generate_ocp(&inst->ocp, type, &shift));
 	}
-	return (ft_puterror(OPFMT));
+	return (ft_puterror(OPFMT, file->line));
 }
 
 int			handle_instruction(t_file *file, char **str, t_inst *inst)
@@ -88,7 +88,7 @@ int			handle_instruction(t_file *file, char **str, t_inst *inst)
 	arg = file->op_tab[inst->index].arg;
 	split = ft_strsplit(*str, ',');
 	if (check_arg_num(split, arg) == EXIT_ERROR)
-		return (ft_puterror(BADOPARG));
+		return (ft_puterror(BADOPARG, file->line));
 	i = -1;
 	while (arg-- && i++ < file->op_tab[inst->index].arg)
 	{
@@ -114,7 +114,7 @@ int			get_instruction(t_file *file, char **wd, char **end)
 	if ((inst.index = is_instruction(*wd, file->op_tab)) < 0)
 	{
 		free((void*)*wd);
-		return (ft_puterror(BADOP));
+		return (ft_puterror(BADOP, file->line));
 	}
 	free((void*)*wd);
 	init_inst(&inst, file);

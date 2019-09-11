@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:35 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/11 18:08:49 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/11 22:11:48 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ int			get_champ_name(t_file *file, char **wd, char **end)
 		if ((p = ft_strchr(*end + 1, '"')))
 		{
 			if ((size = (int)(p - (*end + 1))) > PROG_NAME_LENGTH)
-				return (ft_puterror(LNAME));
+				return (ft_puterror(LNAME, file->line));
 			ft_strncpy(file->hd->prog_name, *end + 1, size);
 			*end = p + 1;
 			return (EXIT_SUCCESS);
 		}
 	}
-	return (ft_puterror(BADNAME));
+	return (ft_puterror(BADNAME, file->line));
 }
 
 int			check_multiple_line_cmnt(char **end, char **wd, t_file *file)
@@ -71,7 +71,7 @@ int			check_multiple_line_cmnt(char **end, char **wd, t_file *file)
 		file->tmp = ft_strnjoinfree(file->tmp, "\n", 1);
 	}
 	if (ft_strlen(file->tmp) > COMMENT_LENGTH && (file->cmnt = -1))
-		return (ft_puterror(LCMNT));
+		return (ft_puterror(LCMNT, file->line));
 	if (p)
 	{
 		file->cmnt = 0;
@@ -95,5 +95,5 @@ int			get_comment(t_file *file, char **wd, char **end)
 	if (file->cmnt == 1 || **end == '"')
 		return (check_multiple_line_cmnt(end, wd, file));
 	file->cmnt = -1;
-	return (ft_puterror(BADCMNT));
+	return (ft_puterror(BADCMNT, file->line));
 }
