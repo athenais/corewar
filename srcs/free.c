@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 16:22:13 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/09 19:29:39 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/11 14:21:06 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void		free_split(char **split)
 
 void		free_file(t_file *file)
 {
+	if (file->fd < 0)
+		return ;
 	free_label(file->label, file->lab_list);
 	if (file->fd_cor)
 		close(file->fd_cor);

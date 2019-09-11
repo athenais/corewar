@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/11 13:59:37 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/09 23:14:35 by abrunet          ###   ########.fr       */
+/*   Created: 2019/09/11 15:04:27 by abrunet           #+#    #+#             */
+/*   Updated: 2019/09/11 15:04:33 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ int			parse_lab_list(t_file *file)
 	tmp = file->lab_list;
 	while (tmp)
 	{
-		if (!(label = label_exist(tmp->name, file)))
-			return (ft_puterror(ERRLABEL));
+		label = label_exist(tmp->name, file);
 		write_label(file, tmp, label);
 		tmp = tmp->next;
 	}

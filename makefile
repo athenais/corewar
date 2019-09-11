@@ -6,7 +6,7 @@
 #    By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/08/15 18:34:52 by abrunet          ###   ########.fr        #
+#    Updated: 2019/09/11 14:05:03 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRC			=	main			assembler	\
 				handle_label				\
 				write_label					\
 				asm_tools					\
+				asm_tools_bis				\
 				write_inst					\
 				write_to_cor				\
 				write_tools					\

@@ -3,67 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   read_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrunet <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 17:08:12 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/09 19:34:36 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/11 14:33:08 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <asm.h>
 #include <asm_errors.h>
 
-int			is_instruction(char *str, t_op const *op_tab)
+int			check_valid_inst_index(char **start,
+		int i, t_file *file, char **end)
 {
-	int		index;
+	char	s[INST_MAX_SIZE];
 
-	index = -1;
-	while (op_tab[++index].name)
+	if (!file->op)
+		file->op = 1;
+	ft_fast_bzero(s, INST_MAX_SIZE);
+	ft_strncpy(s, (*start), i);
+	if (is_instruction(s, file->op_tab) != EXIT_ERROR)
 	{
-		if (!(ft_strcmp(str, op_tab[index].name)))
-			return (index);
-	}
-	return (EXIT_ERROR);
-}
-
-#include <stdio.h>
-int			check_header_var(int *name, int *cmnt, char **start, char **end)
-{
-	int		size;
-
-	if	(!(*name)
-		&& !(ft_strncmp(*start, ".name", (size = ft_strlen(".name")))))
-	{
-		*name = 1;
-		*end = *start + size;
+		*end = *start + i;
+		*start = s;
 		return (1);
-	}
-	else if	(!(*cmnt)
-		&& !(ft_strncmp(*start, ".comment", (size = ft_strlen(".comment")))))
-	{
-		*cmnt = 1;
-		*end = *start + size;
-		return (2);
 	}
 	return (0);
 }
 
 uint8_t		get_funptr_index(char **start, char **end, t_file *file)
 {
-	static	int name;
-	static	int cmnt;
-	char	s[INST_MAX_SIZE];
-	int		i;
+	static int		name;
+	static int		cmnt;
+	int				i;
 
-	i = 0;
-	ft_fast_bzero(s, INST_MAX_SIZE);
 	if (**start == '.')
 		return (check_header_var(&name, &cmnt, start, end));
 	else if (name && cmnt)
 	{
-		while ((*start)[i] && !ft_iswhitespace((*start)[i])
-			&& (*start)[i] != ':' && (*start)[i] != '%')
-			i++;
+		i = get_end_word_index(start);
 		if ((*start)[i] == ':')
 		{
 			*end = *start + i + 1;
@@ -71,41 +49,45 @@ uint8_t		get_funptr_index(char **start, char **end, t_file *file)
 		}
 		else if (i < INST_MAX_SIZE && (*start)[i]
 			&& (ft_iswhitespace((*start)[i]) || (*start)[i] == '%'))
-		{
-			ft_strncpy(s, (*start), i);
-			if (is_instruction(s, file->op_tab) != EXIT_ERROR)
-			{
-				*end = *start + i;
-				*start = s;
+			if (check_valid_inst_index(start, i, file, end))
 				return (4);
-			}
-		}
 	}
 	return (0);
 }
+
+int			get_end_and_start(char **end, char **start,
+		char **buff, t_file *file)
+{
+	int		i;
+
+	i = 0;
+	if (file->cmnt == 1)
+	{
+		*start = *buff;
+		*end += ft_strlen(*start);
+	}
+	else
+	{
+		while (*buff && ft_iswhitespace((*buff)[i]))
+			i++;
+		if (!(*buff) || !(*buff)[i])
+			return (1);
+		*start = *buff + i;
+	}
+	return (0);
+}
+
 int			parse_line(t_file *file, char **buff, char *ptr,
 	int (**funptr)(t_file *, char **, char **))
 {
 	static	uint8_t		index;
-	int					i;
 	char				*start;
 	char				*end;
 
-	i = 0;
-	while (*buff && ft_iswhitespace((*buff)[i]))
-		i++;
-	if (!(*buff) || !(*buff)[i])
-		return(EXIT_SUCCESS);
-	start = *buff + i;
-//	printf("|%s| = buffer\n", *buff);
-	if (file->cmnt == 1)
-	{
-		start = *buff;
-		end = ptr;
-	}
+	if (get_end_and_start(&end, &start, buff, file))
+		return (EXIT_SUCCESS);
 	index = (file->cmnt) ? 2
 		: get_funptr_index(&start, &end, file);
-//	printf("%d = index\n", index);
 	if (index)
 	{
 		if ((funptr[index])(file, &start, &end) != EXIT_SUCCESS)

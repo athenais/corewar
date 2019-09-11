@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:58:14 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/09 23:13:18 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/11 14:13:38 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ t_label		*new_label(char *word, unsigned int start)
 {
 	t_label	*new;
 	int		size;
-	
+
 	size = 0;
 	while (word[size] != ':')
-		size++; 
+		size++;
 	if (!size)
 	{
 		ft_puterror(ERRLAB);
@@ -103,6 +103,7 @@ t_label		*make_label(char **wd, t_file *file, unsigned int start)
 	}
 	return (new);
 }
+
 int			get_label(t_file *file, char **wd, char **end)
 {
 	(void)end;

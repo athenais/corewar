@@ -6,15 +6,35 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:35 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/09 19:47:59 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/11 14:11:58 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <asm.h>
 #include <asm_errors.h>
-#include <stdio.h>
 
-int		get_champ_name(t_file *file, char **wd, char **end)
+int			check_header_var(int *name, int *cmnt, char **start, char **end)
+{
+	int		size;
+
+	if (!(*name)
+		&& !(ft_strncmp(*start, ".name", (size = ft_strlen(".name")))))
+	{
+		*name = 1;
+		*end = *start + size;
+		return (1);
+	}
+	else if (!(*cmnt)
+		&& !(ft_strncmp(*start, ".comment", (size = ft_strlen(".comment")))))
+	{
+		*cmnt = 1;
+		*end = *start + size;
+		return (2);
+	}
+	return (0);
+}
+
+int			get_champ_name(t_file *file, char **wd, char **end)
 {
 	char	*p;
 	int		size;
@@ -36,7 +56,7 @@ int		get_champ_name(t_file *file, char **wd, char **end)
 	return (ft_puterror(BADNAME));
 }
 
-int		check_multiple_line_cmnt(char **end, char **wd, t_file *file)
+int			check_multiple_line_cmnt(char **end, char **wd, t_file *file)
 {
 	char		*p;
 	char const	*s;
@@ -64,14 +84,14 @@ int		check_multiple_line_cmnt(char **end, char **wd, t_file *file)
 	return (EXIT_SUCCESS);
 }
 
-int		get_comment(t_file *file, char **wd, char **end)
+int			get_comment(t_file *file, char **wd, char **end)
 {
 	if (!file->cmnt)
 	{
 		while (**end && (ft_iswhitespace(**end)))
 			(*end)++;
 	}
-	if (**end == '"' || file->cmnt == 1)
+	if (file->cmnt == 1 || **end == '"')
 		return (check_multiple_line_cmnt(end, wd, file));
 	file->cmnt = -1;
 	return (ft_puterror(BADCMNT));
