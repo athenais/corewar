@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:58:03 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/11 16:00:31 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/11 19:26:19 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int						check_arg_num(char **split, int arg);
 int						check_header_var(int *name, int *cmnt,
 		char **start, char **end);
 int						get_end_word_index(char **start);
+int						file_read_free(char *buff, char *str, int err);
 int64_t					asm_atoi(char **string, int shrt);
 t_label					*label_exist(char *str, t_file *file);
 t_lab					*lab_list(char **str, t_file *file, t_inst *inst);
