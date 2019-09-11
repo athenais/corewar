@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:58:03 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/11 15:08:56 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/11 16:00:31 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,10 @@ typedef	struct			s_file
 {
 	int					fd;
 	int					fd_cor;
-	int					line;
 	int					wr;
 	int					cmnt;
+	int					mult_lab;
+	int					mult_inst;
 	int					op;
 	char				*tmp;
 	off_t				bytes;

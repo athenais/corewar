@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/15 17:08:12 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/11 14:33:08 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/11 16:01:27 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int			check_valid_inst_index(char **start,
 	ft_strncpy(s, (*start), i);
 	if (is_instruction(s, file->op_tab) != EXIT_ERROR)
 	{
+		file->mult_inst = 1;
 		*end = *start + i;
 		*start = s;
 		return (1);
@@ -42,12 +43,13 @@ uint8_t		get_funptr_index(char **start, char **end, t_file *file)
 	else if (name && cmnt)
 	{
 		i = get_end_word_index(start);
-		if ((*start)[i] == ':')
+		if ((*start)[i] == ':' && !file->mult_lab && !file->mult_inst)
 		{
+			file->mult_lab = 1;
 			*end = *start + i + 1;
 			return (3);
 		}
-		else if (i < INST_MAX_SIZE && (*start)[i]
+		else if (i < INST_MAX_SIZE && (*start)[i] && !file->mult_inst
 			&& (ft_iswhitespace((*start)[i]) || (*start)[i] == '%'))
 			if (check_valid_inst_index(start, i, file, end))
 				return (4);
@@ -77,8 +79,8 @@ int			get_end_and_start(char **end, char **start,
 	return (0);
 }
 
-int			parse_line(t_file *file, char **buff, char *ptr,
-	int (**funptr)(t_file *, char **, char **))
+int			parse_line(t_file *file, char **buff,
+		int (**funptr)(t_file *, char **, char **))
 {
 	static	uint8_t		index;
 	char				*start;
@@ -93,7 +95,7 @@ int			parse_line(t_file *file, char **buff, char *ptr,
 		if ((funptr[index])(file, &start, &end) != EXIT_SUCCESS)
 			return (EXIT_ERROR);
 		return ((file->cmnt) ? EXIT_SUCCESS
-				: parse_line(file, &end, ptr, funptr));
+				: parse_line(file, &end, funptr));
 	}
 	if (file->cmnt < 0)
 		return (EXIT_ERROR);
@@ -106,10 +108,8 @@ int			read_file(t_file *file)
 {
 	char				*buffer;
 	static char			*string;
-	int					ret;
 	int					(*funptr[5])(t_file *, char **, char **);
 
-	file->line = 1;
 	funptr[1] = &get_champ_name;
 	funptr[2] = &get_comment;
 	funptr[3] = &get_label;
@@ -117,14 +117,15 @@ int			read_file(t_file *file)
 	file->bytes = 0;
 	if (!(string = ft_strnew(1)))
 		return (EXIT_ERROR);
-	while ((ret = ft_readline(file->fd, &string, &buffer)) > 0)
+	while ((ft_readline(file->fd, &string, &buffer)) > 0)
 	{
-		if (parse_line(file, &buffer, buffer + (ret - 1), funptr) == EXIT_ERROR)
+		file->mult_inst = 0;
+		file->mult_lab = 0;
+		if (parse_line(file, &buffer, funptr) == EXIT_ERROR)
 		{
 			free((void *)buffer);
 			return (EXIT_ERROR);
 		}
-		file->line++;
 		free((void *)buffer);
 	}
 	free((void *)buffer);
