@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:35 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/11 14:11:58 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/11 18:08:49 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int			check_multiple_line_cmnt(char **end, char **wd, t_file *file)
 		file->cmnt = 0;
 		ft_strcpy(file->hd->comment, file->tmp);
 		free(file->tmp);
+		file->tmp = NULL;
 		*end = p + 1;
 	}
 	else

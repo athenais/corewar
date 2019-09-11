@@ -6,7 +6,7 @@
 /*   By: abrunet <abrunet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 13:57:44 by abrunet           #+#    #+#             */
-/*   Updated: 2019/09/09 19:35:57 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/09/11 19:12:10 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,11 @@ int			get_instruction(t_file *file, char **wd, char **end)
 	while (**end && ft_iswhitespace(**end))
 		(*end)++;
 	if ((inst.index = is_instruction(*wd, file->op_tab)) < 0)
+	{
+		free((void*)*wd);
 		return (ft_puterror(BADOP));
+	}
+	free((void*)*wd);
 	init_inst(&inst, file);
 	if (handle_instruction(file, end, &inst) != EXIT_SUCCESS)
 		return (EXIT_ERROR);
